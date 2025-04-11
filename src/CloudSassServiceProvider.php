@@ -1,0 +1,48 @@
+<?php
+
+namespace Hansoft\CloudSass;
+
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Hansoft\CloudSass\Commands\CloudSassCommand;
+use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
+use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
+use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
+
+class CloudSassServiceProvider extends PackageServiceProvider
+{
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->name('cloud-sass')
+            ->hasConfigFile()
+            /*
+            ->hasViews()
+            ->hasMigration('create_cloud_sass_table')
+            */
+            ->hasCommands([
+                CloudSassHtaccessCommand::class,
+                CloudSassPublicHtaccessCommand::class,
+                CloudSassCommand::class,
+            ]);
+    }
+
+    public function packageRegistered()
+    {
+        Request::macro('subdomain', function () {
+			$domainParts = explode('.', request()->getHost());
+			if (count($domainParts) < 3 || $domainParts[0] === 'www') return null;
+			return current($domainParts);
+		});
+    }
+
+    public function packageBooted()
+    {
+        /** @var Router $router */
+        $router = $this->app['router'];
+
+        $router->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
+    }
+}
