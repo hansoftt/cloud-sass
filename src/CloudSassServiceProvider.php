@@ -41,7 +41,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
 			return current($domainParts);
 		});
 
-        $this->mergeConfigFrom(__DIR__.'/../config/database.php', 'database');
+        $this->mergeConfigFrom(__DIR__.'/../config/database.php', null);
     }
 
     public function packageBooted()
