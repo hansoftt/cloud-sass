@@ -1,9 +1,6 @@
 <?php
-
 namespace Hansoft\CloudSass;
 
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Hansoft\CloudSass\Commands\CloudSassCommand;
 use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
@@ -11,6 +8,8 @@ use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
 use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CloudSassServiceProvider extends PackageServiceProvider
 {
@@ -18,13 +17,8 @@ class CloudSassServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('cloud-sass')
-            ->hasConfigFile([
-                'cloud-sass',
-            ])
-            /*
-            ->hasViews()
-            ->hasMigration('create_cloud_sass_table')
-            */
+            ->hasConfigFile()
+            ->hasMigrations('create_cloud_sass_table')
             ->hasCommands([
                 CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
@@ -36,12 +30,13 @@ class CloudSassServiceProvider extends PackageServiceProvider
     public function packageRegistered()
     {
         Request::macro('subdomain', function () {
-			$domainParts = explode('.', request()->getHost());
-			if (count($domainParts) < 3 || $domainParts[0] === 'www') return null;
-			return current($domainParts);
-		});
+            $domainParts = explode('.', request()->getHost());
+            if (count($domainParts) < 3 || $domainParts[0] === 'www') {
+                return null;
+            }
 
-        $this->mergeConfigFrom(__DIR__.'/../config/database.php', null);
+            return current($domainParts);
+        });
     }
 
     public function packageBooted()
