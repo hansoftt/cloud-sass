@@ -20,7 +20,6 @@ class CloudSassServiceProvider extends PackageServiceProvider
             ->name('cloud-sass')
             ->hasConfigFile([
                 'cloud-sass',
-                'database',
             ])
             /*
             ->hasViews()
@@ -41,6 +40,8 @@ class CloudSassServiceProvider extends PackageServiceProvider
 			if (count($domainParts) < 3 || $domainParts[0] === 'www') return null;
 			return current($domainParts);
 		});
+
+        $this->mergeConfigFrom(__DIR__.'/../config/database.php', 'database');
     }
 
     public function packageBooted()
