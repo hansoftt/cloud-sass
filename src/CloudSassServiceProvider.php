@@ -18,7 +18,10 @@ class CloudSassServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('cloud-sass')
-            ->hasConfigFile()
+            ->hasConfigFile([
+                'cloud-sass',
+                'database',
+            ])
             /*
             ->hasViews()
             ->hasMigration('create_cloud_sass_table')
