@@ -36,11 +36,13 @@ class CloudSassSSLCommand extends Command
 
         if (! $this->option('site')) {
             $this->error('Site name is required.');
+            return self::FAILURE;
         }
         $site = $this->option('site');
 
         if (! $this->option('email')) {
             $this->error('Site email is required.');
+            return self::FAILURE;
         }
         $email = $this->option('email');
 
