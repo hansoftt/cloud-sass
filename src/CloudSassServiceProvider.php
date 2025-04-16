@@ -7,6 +7,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Hansoft\CloudSass\Commands\CloudSassCommand;
 use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
+use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
 use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -23,6 +24,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
             ->hasMigration('create_cloud_sass_table')
             */
             ->hasCommands([
+                CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,
                 CloudSassCommand::class,
