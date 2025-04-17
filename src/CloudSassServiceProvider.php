@@ -18,13 +18,14 @@ class CloudSassServiceProvider extends PackageServiceProvider
         $package
             ->name('cloud-sass')
             ->hasConfigFile()
-            ->hasMigrations('create_cloud_sass_table')
+            ->hasMigrations('cloud_sass_clients_table')
             ->hasCommands([
                 CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,
                 CloudSassCommand::class,
             ]);
+
     }
 
     public function packageRegistered()
@@ -35,7 +36,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
                 return null;
             }
 
-            return current($domainParts);
+            return array_shift($domainParts);
         });
     }
 
@@ -45,5 +46,9 @@ class CloudSassServiceProvider extends PackageServiceProvider
         $router = $this->app['router'];
 
         $router->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
+
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 }

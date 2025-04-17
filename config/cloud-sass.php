@@ -2,6 +2,8 @@
 
 // config for Hansoft/CloudSass
 return [
+    'layout'      => 'layouts.app',
+
     'connections' => [
         'client' => [
             'driver'    => 'mysql',
