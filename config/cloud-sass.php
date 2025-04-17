@@ -19,4 +19,6 @@ return [
             'engine'    => 'InnoDB',
         ],
     ],
+
+    'migrations_location' => base_path('database/client-migrations'),
 ];
