@@ -3,6 +3,7 @@ namespace Hansoft\CloudSass;
 
 use Hansoft\CloudSass\Commands\CloudSassCommand;
 use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
+use Hansoft\CloudSass\Commands\CloudSassInstallCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
 use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
@@ -18,37 +19,51 @@ class CloudSassServiceProvider extends PackageServiceProvider
         $package
             ->name('cloud-sass')
             ->hasConfigFile()
-            ->hasMigrations('cloud_sass_clients_table')
+            ->hasMigrations([
+                'cloud_sass_projects_table',
+                'cloud_sass_clients_table',
+            ])
             ->hasCommands([
+                CloudSassInstallCommand::class,
                 CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,
-                CloudSassCommand::class,
             ]);
 
     }
 
     public function packageRegistered()
     {
-        Request::macro('subdomain', function () {
-            $domainParts = explode('.', request()->getHost());
-            if (count($domainParts) < 3 || $domainParts[0] === 'www') {
-                return null;
-            }
+        if ($this->isClient()) {
+            Request::macro('subdomain', function () {
+                $domainParts = explode('.', request()->getHost());
+                if (count($domainParts) < 3 || $domainParts[0] === 'www') {
+                    return null;
+                }
 
-            return array_shift($domainParts);
-        });
+                return array_shift($domainParts);
+            });
+        }
     }
 
     public function packageBooted()
     {
-        /** @var Router $router */
-        $router = $this->app['router'];
+        if ($this->isClient()) {
+            /** @var Router $router */
+            $router = $this->app['router'];
+            $router->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
+            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        }
+    }
 
-        $router->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
+    protected function isAdmin(): bool
+    {
+        return config('cloud-sass.type') === 'admin';
+    }
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+    protected function isClient(): bool
+    {
+        return config('cloud-sass.type') === 'client';
     }
 }
