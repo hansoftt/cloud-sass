@@ -20,18 +20,16 @@ class CloudSassInstallCommand extends Command
 
         if ($this->option('client')) {
             $this->info('Installing CloudSass Client Package..');
-            $this->callSilent('vendor:publish', [
-                '--tag' => 'cloud-sass-config',
-                '--force' => $this->option('force'),
+            $this->callSilent('cloud-sass:config', [
+                '--client' => $this->option('client'),
             ]);
             return self::SUCCESS;
         }
 
         if ($this->option('admin')) {
             $this->info('Installing CloudSass Admin Package..');
-            $this->callSilent('vendor:publish', [
-                '--tag' => 'cloud-sass-config',
-                '--force' => $this->option('force'),
+            $this->callSilent('cloud-sass:config', [
+                '--client' => $this->option('admin'),
             ]);
             $this->callSilent('vendor:publish', [
                 '--tag' => 'cloud-sass-migrations',

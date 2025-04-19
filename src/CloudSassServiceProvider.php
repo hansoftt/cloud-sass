@@ -1,7 +1,6 @@
 <?php
 namespace Hansoft\CloudSass;
 
-use Hansoft\CloudSass\Commands\CloudSassCommand;
 use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassInstallCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
@@ -18,7 +17,6 @@ class CloudSassServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('cloud-sass')
-            ->hasConfigFile()
             ->hasMigrations([
                 'cloud_sass_projects_table',
                 'cloud_sass_clients_table',
