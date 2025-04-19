@@ -1,0 +1,1 @@
+!function(){"use strict";window.success=function(n,i){Swal.fire("Success!",n,"success").then((function(n){n.value&&i&&i()}))},window.warning=function(n,i){Swal.fire("Warning!",n,"warning").then((function(n){n.value&&i&&i()}))},window.error=function(n,i){Swal.fire("Error!",n,"error").then((function(n){n.value&&i&&i()}))}}(NioApp,jQuery);
