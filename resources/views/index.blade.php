@@ -1,4 +1,5 @@
-@component(config('cloud-sass.layout'))
+@component(config('cloud-sass::layouts-app'))
+    @section('title', 'Cloud SASS')
     <div class="container">
         <h1>Welcome to Cloud SASS</h1>
         {{ dump(config('cloud-sass.migrations_location')) }}

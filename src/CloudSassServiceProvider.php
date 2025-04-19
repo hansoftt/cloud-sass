@@ -18,6 +18,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('cloud-sass')
+            ->hasAssets()
             ->hasViews('cloud-sass')
             ->hasRoute('web')
             ->hasMigrations([
@@ -30,9 +31,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
                 CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,
-            ])
-            ->hasAssets();
-
+            ]);
     }
 
     public function packageRegistered()
