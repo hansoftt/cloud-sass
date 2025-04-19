@@ -30,6 +30,7 @@ class CloudSassInstallCommand extends Command
                 return self::SUCCESS;
             }
 
+            $this->error('Failed to install CloudSass Client Package.');
             return self::FAILURE;
         }
 
