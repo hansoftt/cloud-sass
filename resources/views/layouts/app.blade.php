@@ -119,7 +119,9 @@
                 </div>
                 <!-- main header @e -->
 
-                @yield('content')
+                <div class="nk-content ">
+                    @yield('content')
+                </div><!-- .nk-content -->
 
                 <!-- footer @s -->
                 <div class="nk-footer">
