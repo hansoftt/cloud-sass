@@ -30,7 +30,8 @@ class CloudSassServiceProvider extends PackageServiceProvider
                 CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,
-            ]);
+            ])
+            ->hasAssets();
 
     }
 

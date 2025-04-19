@@ -1,7 +1,7 @@
 const path = require('path');
 const mix = require('laravel-mix');
 
-const ASSETS_DIR = 'assets/';
+const ASSETS_DIR = 'resources/dist/assets/';
 
 mix.setPublicPath('.');
 
