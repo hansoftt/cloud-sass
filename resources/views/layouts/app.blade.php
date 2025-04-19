@@ -11,12 +11,19 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="{{ asset('vendor/cloud-sass/assets/images/favicon.png') }}">
     <!-- Page Title  -->
-    <title>@yield('title', 'Laravel')</title>
+    <title>@yield('title', 'App') - Cloud SASS</title>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
+    @filamentStyles
+
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('vendor/cloud-sass/assets/css/dashlite.css') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('vendor/cloud-sass/assets/css/theme.css') }}">
-
-    @laravelViewsStyles
 
     @stack('styles')
 
@@ -36,15 +43,19 @@
                     <div class="container-fluid">
                         <div class="nk-header-wrap">
                             <div class="nk-menu-trigger d-xl-none ms-n1">
-                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon"
-                                    data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em
+                                        class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="html/index.html" class="logo-link">
-                                    <img class="logo-light logo-img" src="{{ asset('vendor/cloud-sass/assets/images/logo.png') }}"
-                                        srcset="{{ asset('vendor/cloud-sass/assets/images/logo2x.png') }} 2x" alt="logo">
-                                    <img class="logo-dark logo-img" src="{{ asset('vendor/cloud-sass/assets/images/logo-dark.png') }}"
-                                        srcset="{{ asset('vendor/cloud-sass/assets/images/logo-dark2x.png') }} 2x" alt="logo-dark">
+                                    <img class="logo-light logo-img"
+                                        src="{{ asset('vendor/cloud-sass/assets/images/logo.png') }}"
+                                        srcset="{{ asset('vendor/cloud-sass/assets/images/logo2x.png') }} 2x"
+                                        alt="logo">
+                                    <img class="logo-dark logo-img"
+                                        src="{{ asset('vendor/cloud-sass/assets/images/logo-dark.png') }}"
+                                        srcset="{{ asset('vendor/cloud-sass/assets/images/logo-dark2x.png') }} 2x"
+                                        alt="logo-dark">
                                 </a>
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-news d-none d-xl-block">
@@ -69,7 +80,8 @@
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
-                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
+                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->name }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </a>
@@ -77,11 +89,13 @@
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span><img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}" alt="avatar"></span>
+                                                        <span><img
+                                                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}"
+                                                                alt="avatar"></span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">{{  Auth::user()->name }}</span>
-                                                        <span class="sub-text">{{  Auth::user()->email }}</span>
+                                                        <span class="lead-text">{{ Auth::user()->name }}</span>
+                                                        <span class="sub-text">{{ Auth::user()->email }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -90,9 +104,10 @@
                                                     <li><a href="#" id="logout_button"><em
                                                                 class="icon ni ni-signout"></em><span>Sign
                                                                 out</span></a></li>
-                                                        <form method="POST" action="{{ route('logout') }}" id="logout_form">
-                                                            @csrf
-                                                        </form>
+                                                    <form method="POST" action="{{ route('logout') }}"
+                                                        id="logout_form">
+                                                        @csrf
+                                                    </form>
                                                 </ul>
                                             </div>
                                         </div>
@@ -133,7 +148,7 @@
     <!-- app-root @e -->
 
     <!-- JavaScript -->
-    @laravelViewsScripts
+    @filamentScripts
 
     <script src="{{ asset('vendor/cloud-sass/assets/js/bundle.js') }}"></script>
     <script src="{{ asset('vendor/cloud-sass/assets/js/scripts.js') }}"></script>
@@ -141,7 +156,7 @@
     <script src="{{ asset('vendor/cloud-sass/assets/js/custom.js') }}"></script>
 
     <script>
-        $('#logout_button').on('click', function (e) {
+        $('#logout_button').on('click', function(e) {
             e.preventDefault();
             $('#logout_form').trigger('submit');
         })
