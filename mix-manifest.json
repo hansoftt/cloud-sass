@@ -1,9 +1,9 @@
 {
-    "/assets/js/scripts.js": "/assets/js/scripts.js?id=c40f057ad0c2a023b07481570d888364",
-    "/assets/js/charts/gd-default.js": "/assets/js/charts/gd-default.js?id=e2797896529af70f14d2662045df90c4",
-    "/assets/js/custom.js": "/assets/js/custom.js?id=13596fc425b2fd65100b893a9328edc0",
-    "/assets/css/tabs.css": "/assets/css/tabs.css?id=4f9f52bed8d338d263ca54c38fd08ff6",
-    "/assets/css/theme.css": "/assets/css/theme.css?id=0535c58e27ba504db8acd883c07742aa",
-    "/assets/css/dashlite.css": "/assets/css/dashlite.css?id=f0d50c71d3d9c644fbbc00a8cea03877",
-    "/assets/js/bundle.js": "/assets/js/bundle.js?id=90eaa3b97c92469a24fa6bf8987f65a4"
+    "/resources/dist/assets/js/scripts.js": "/resources/dist/assets/js/scripts.js?id=7cdf82816b2b6246e4e07838dba52b4c",
+    "/resources/dist/assets/js/charts/gd-default.js": "/resources/dist/assets/js/charts/gd-default.js?id=e2797896529af70f14d2662045df90c4",
+    "/resources/dist/assets/js/custom.js": "/resources/dist/assets/js/custom.js?id=13596fc425b2fd65100b893a9328edc0",
+    "/resources/dist/assets/css/tabs.css": "/resources/dist/assets/css/tabs.css?id=4f9f52bed8d338d263ca54c38fd08ff6",
+    "/resources/dist/assets/css/theme.css": "/resources/dist/assets/css/theme.css?id=0535c58e27ba504db8acd883c07742aa",
+    "/resources/dist/assets/css/dashlite.css": "/resources/dist/assets/css/dashlite.css?id=f0d50c71d3d9c644fbbc00a8cea03877",
+    "/resources/dist/assets/js/bundle.js": "/resources/dist/assets/js/bundle.js?id=90eaa3b97c92469a24fa6bf8987f65a4"
 }
