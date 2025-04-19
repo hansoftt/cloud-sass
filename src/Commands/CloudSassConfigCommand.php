@@ -22,8 +22,6 @@ class CloudSassConfigCommand extends Command
 
     public function handle(): int
     {
-        $this->info('Configuring CloudSass Package..');
-
         if ($this->option('client') && $this->option('admin')) {
             $this->error('You cannot use --client and --admin at the same time.');
             return self::FAILURE;
@@ -37,9 +35,13 @@ class CloudSassConfigCommand extends Command
         if ($this->option('client')) {
             $this->info('Configuring CloudSass Client Package..');
             $this->fileSystem->put($this->sourceFilePath, $this->getSourceFile());
+            $this->info('Configured CloudSass Client Package.');
+            return self::SUCCESS;
         } elseif ($this->option('admin')) {
             $this->info('Configuring CloudSass Admin Package..');
             $this->fileSystem->put($this->sourceFilePath, $this->getSourceFile());
+            $this->info('Configured CloudSass Client Package.');
+            return self::SUCCESS;
         } else {
             $this->error('You must specify either --client or --admin.');
             return self::FAILURE;
@@ -50,7 +52,7 @@ class CloudSassConfigCommand extends Command
 
     public function getSourceFilePath()
     {
-        return base_path('config' . DIRECTORY_SEPARATOR . 'config-sass.php');
+        return base_path('config' . DIRECTORY_SEPARATOR . 'cloud-sass.php');
     }
 
     public function getSourceFile()

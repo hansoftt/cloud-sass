@@ -1,6 +1,7 @@
 <?php
 namespace Hansoft\CloudSass;
 
+use Hansoft\CloudSass\Commands\CloudSassConfigCommand;
 use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassInstallCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
@@ -23,6 +24,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
             ])
             ->hasCommands([
                 CloudSassInstallCommand::class,
+                CloudSassConfigCommand::class,
                 CloudSassSSLCommand::class,
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,

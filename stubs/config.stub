@@ -2,6 +2,6 @@
 
 // config for Hansoft/CloudSass
 return [
-    'type' => $TYPE, // admin or client
+    'type' => '$TYPE', // admin or client
     'migrations' => null,
 ];
