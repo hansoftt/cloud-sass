@@ -37,7 +37,6 @@
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Subdomain</th>
-                                            <th>Project</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -48,7 +47,6 @@
                                             <td>{{ $client->email }}</td>
                                             <td>{{ $client->phone }}</td>
                                             <td>{{ $client->subdomain }}</td>
-                                            <td>{{ $client->project->name }}</td>
                                             <td>
                                                 <a href="{{ route('cloud-sass.clients.edit', ['id' => $client->id]) }}"
                                                     class="btn btn-info">
@@ -62,7 +60,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7">No clients found.</td>
+                                            <td colspan="6">No clients found.</td>
                                         </tr>
                                     @endforelse
                                 </table>

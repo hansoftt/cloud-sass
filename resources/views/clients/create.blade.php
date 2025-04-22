@@ -61,22 +61,6 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="project_id" class="form-label">Project</label>
-                                        <select class="form-select" id="project_id" name="project_id" required>
-                                            <option value="">Select Project</option>
-                                            @foreach ($projects as $project)
-                                                <option value="{{ $project->id }}"
-                                                    {{ old('project_id') == $project->id ? 'selected' : '' }}>
-                                                    {{ $project->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('project_id')
-                                            <div class="alert alert-danger mt-2">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
                                     <div class="col-md-2 align-content-end">
                                         <button type="submit" class="btn btn-primary mt-4">Create Client</button>
                                     </div>
