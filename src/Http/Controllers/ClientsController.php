@@ -6,6 +6,9 @@ use Hansoft\CloudSass\Models\Client;
 use Hansoft\CloudSass\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class ClientsController extends Controller
 {
@@ -31,7 +34,10 @@ class ClientsController extends Controller
             'project_id' => 'required|exists:cloud_sass_projects_table,id',
         ]);
 
-        Client::query()->create($validated);
+        $client = Client::query()->create($validated);
+
+        // Create the database for the client
+        $this->createDatabase($client);
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client created successfully.');
     }
@@ -81,5 +87,39 @@ class ClientsController extends Controller
         $client->delete(); // Delete the client
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client deleted successfully.');
+    }
+
+    protected function createDatabase($client)
+    {
+        DB::setDefaultConnection('mysql');
+        DB::purge('mysql');
+        DB::connection('mysql')->reconnect();
+        Config::set('database.connections.mysql.database', null);
+
+        // Logic to create a database for the client
+        // This is just a placeholder. You should implement the actual logic to create a database.
+        $databaseName = $client->database_name; // Assuming you have a method to get the database name
+        // Use your database creation logic here
+        // For example, using Laravel's DB facade or any other method you prefer
+        DB::statement("CREATE DATABASE IF NOT EXISTS `$databaseName`");
+
+        DB::setDefaultConnection('mysql');
+        DB::purge('mysql');
+        DB::connection('mysql')->reconnect();
+        Config::set('database.connections.mysql.database', $client->database_name);
+        DB::purge('mysql');
+        DB::connection('mysql')->reconnect();
+        DB::setDefaultConnection('mysql');
+
+        Artisan::call('migrate', [
+            '--database' => 'mysql',
+            '--path' => base_path($client->project->migrations_location),
+            '--force' => true,
+        ]);
+
+        DB::setDefaultConnection('sqlite');
+        DB::purge('sqlite');
+        DB::connection('sqlite')->reconnect();
+        DB::setDefaultConnection('sqlite');
     }
 }
