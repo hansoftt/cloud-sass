@@ -21,7 +21,7 @@
                             <form method="POST" action="{{ route('cloud-sass.clients.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="name" class="form-label">Client Name</label>
                                         <input type="text" class="form-control" value="{{ old('name') }}"
                                             id="name" name="name" required>
@@ -31,7 +31,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" value="{{ old('email') }}"
                                             id="email" name="email" required>
@@ -41,7 +41,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="phone" class="form-label">Phone</label>
                                         <input type="text" class="form-control" value="{{ old('phone') }}"
                                             id="phone" name="phone" required>
@@ -51,7 +51,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="subdomain" class="form-label">Subdomain</label>
                                         <input type="text" class="form-control" id="subdomain"
                                             value="{{ old('subdomain') }}" name="subdomain" required>
