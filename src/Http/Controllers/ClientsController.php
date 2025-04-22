@@ -3,7 +3,6 @@
 namespace Hansoft\CloudSass\Http\Controllers;
 
 use Hansoft\CloudSass\Models\Client;
-use Hansoft\CloudSass\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
@@ -93,19 +92,12 @@ class ClientsController extends Controller
 
     protected function reconnectMySQL($databaseName)
     {
-        Config::set('database.connections.mysql.username', 'root');
-        Config::set('database.connections.mysql.password', 'root');
+        Config::set('database.connections.mysql.username', config('cloud-sass.mysql_root_user'));
+        Config::set('database.connections.mysql.password', config('cloud-sass.mysql_root_password'));
         Config::set('database.connections.mysql.database', $databaseName);
         DB::purge('mysql');
         DB::connection('mysql')->reconnect();
         DB::setDefaultConnection('mysql');
-    }
-
-    protected function reconnectSqlite()
-    {
-        DB::purge('sqlite');
-        DB::connection('sqlite')->reconnect();
-        DB::setDefaultConnection('sqlite');
     }
 
     protected function createDatabase($client)
@@ -134,7 +126,5 @@ class ClientsController extends Controller
             Hash::make($client->phone),
             null
         ]);
-
-        $this->reconnectSqlite();
     }
 }

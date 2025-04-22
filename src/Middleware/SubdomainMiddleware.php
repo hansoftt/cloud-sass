@@ -12,8 +12,6 @@ class SubdomainMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $this->reconnectSqlite();
-
         $subdomain = $request->subdomain();
 
         if ($subdomain) {
@@ -25,7 +23,7 @@ class SubdomainMiddleware
             $databaseName = $client->database_name;
             $this->reconnectMySQL($databaseName);
         } else {
-            $this->reconnectSqlite();
+            $this->reconnectMySQL(config('database.connections.mysql.database'));
         }
 
 		$request->headers->set('customer-code', $request->subdomain());
@@ -35,18 +33,11 @@ class SubdomainMiddleware
 
     protected function reconnectMySQL($databaseName)
     {
-        Config::set('database.connections.mysql.username', 'root');
-        Config::set('database.connections.mysql.password', 'root');
+        Config::set('database.connections.mysql.username', config('cloud-sass.mysql_root_user'));
+        Config::set('database.connections.mysql.password', config('cloud-sass.mysql_root_password'));
         Config::set('database.connections.mysql.database', $databaseName);
         DB::purge('mysql');
         DB::connection('mysql')->reconnect();
         DB::setDefaultConnection('mysql');
-    }
-
-    protected function reconnectSqlite()
-    {
-        DB::purge('sqlite');
-        DB::connection('sqlite')->reconnect();
-        DB::setDefaultConnection('sqlite');
     }
 }

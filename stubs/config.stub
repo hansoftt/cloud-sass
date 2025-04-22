@@ -3,5 +3,7 @@
 // config for Hansoft/CloudSass
 return [
     'type' => '$TYPE', // admin or client
-    'migrations_location => 'church_migrations',
+    'migrations_location' => 'church_migrations',
+    'mysql_root_user' => 'root',
+    'mysql_root_password' => 'root',
 ];
