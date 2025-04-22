@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ClientsController extends Controller
 {
@@ -84,17 +85,37 @@ class ClientsController extends Controller
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
+        $this->reconnectMySQL(null);
+        // Logic to drop the database for the client
+        DB::statement("DROP DATABASE IF EXISTS `" . $client->database_name . "`");
+
+        $this->reconnectSqlite();
+
         $client->delete(); // Delete the client
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client deleted successfully.');
     }
 
-    protected function createDatabase($client)
+    protected function reconnectMySQL($databaseName)
     {
-        DB::setDefaultConnection('mysql');
+        Config::set('database.connections.mysql.username', 'root');
+        Config::set('database.connections.mysql.password', 'root');
+        Config::set('database.connections.mysql.database', $databaseName);
         DB::purge('mysql');
         DB::connection('mysql')->reconnect();
-        Config::set('database.connections.mysql.database', null);
+        DB::setDefaultConnection('mysql');
+    }
+
+    protected function reconnectSqlite()
+    {
+        DB::purge('sqlite');
+        DB::connection('sqlite')->reconnect();
+        DB::setDefaultConnection('sqlite');
+    }
+
+    protected function createDatabase($client)
+    {
+        $this->reconnectMySQL(null);
 
         // Logic to create a database for the client
         // This is just a placeholder. You should implement the actual logic to create a database.
@@ -103,23 +124,22 @@ class ClientsController extends Controller
         // For example, using Laravel's DB facade or any other method you prefer
         DB::statement("CREATE DATABASE IF NOT EXISTS `$databaseName`");
 
-        DB::setDefaultConnection('mysql');
-        DB::purge('mysql');
-        DB::connection('mysql')->reconnect();
-        Config::set('database.connections.mysql.database', $client->database_name);
-        DB::purge('mysql');
-        DB::connection('mysql')->reconnect();
-        DB::setDefaultConnection('mysql');
+        $this->reconnectMySQL($databaseName);
 
         Artisan::call('migrate', [
             '--database' => 'mysql',
-            '--path' => base_path($client->project->migrations_location),
+            '--path' => $client->project->migrations_location,
             '--force' => true,
         ]);
 
-        DB::setDefaultConnection('sqlite');
-        DB::purge('sqlite');
-        DB::connection('sqlite')->reconnect();
-        DB::setDefaultConnection('sqlite');
+        DB::statement('INSERT INTO users (`name`, `email`, `email_verified_at`, `password`, `remember_token`) VALUES (?, ?, ?, ?, ?)', [
+            $client->name,
+            $client->email,
+            now(),
+            Hash::make($client->phone),
+            null
+        ]);
+
+        $this->reconnectSqlite();
     }
 }
