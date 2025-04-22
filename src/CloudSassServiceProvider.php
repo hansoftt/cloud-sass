@@ -21,7 +21,6 @@ class CloudSassServiceProvider extends PackageServiceProvider
             ->hasViews('cloud-sass')
             ->hasRoute('web')
             ->hasMigrations([
-                'cloud_sass_projects_table',
                 'cloud_sass_clients_table',
             ])
             ->hasCommands([
