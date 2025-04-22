@@ -53,14 +53,4 @@ class CloudSassServiceProvider extends PackageServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
-
-    protected function isAdmin(): bool
-    {
-        return config('cloud-sass.type') === 'admin';
-    }
-
-    protected function isClient(): bool
-    {
-        return config('cloud-sass.type') === 'client';
-    }
 }

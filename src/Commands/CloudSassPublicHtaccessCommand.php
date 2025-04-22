@@ -13,11 +13,6 @@ class CloudSassPublicHtaccessCommand extends Command
 
     public function handle(): int
     {
-        if (config('cloud-sass.type') !== 'client') {
-            $this->error('This command is only available for client type.');
-            return self::FAILURE;
-        }
-
         $handler = app(HtaccessHandler::class);
         return $handler->handle($this, HtaccessHandler::PUBLIC);
     }

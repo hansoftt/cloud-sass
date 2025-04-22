@@ -14,14 +14,9 @@ class Client extends Model
         'database_name',
     ];
 
-    protected function project()
-    {
-        return $this->belongsTo(Project::class, 'project_id', 'id');
-    }
-
     protected function getDatabaseNameAttribute()
     {
-        $project_name = Str::slug($this->project->name, '_');
-        return sprintf('%s_%s', $project_name, $this->id);
+        $name = Str::slug($this->name, '_');
+        return sprintf('%s_%s', $name, $this->id);
     }
 }

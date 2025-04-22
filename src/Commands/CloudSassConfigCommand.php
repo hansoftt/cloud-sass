@@ -6,7 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 
 class CloudSassConfigCommand extends Command
 {
-    public $signature   = 'cloud-sass:config {--client} {--admin} {--force}';
+    public $signature   = 'cloud-sass:config {--force}';
     public $description = 'Configure CloudSass Package';
     public $hidden      = true;
     public $force       = false;
@@ -22,32 +22,15 @@ class CloudSassConfigCommand extends Command
 
     public function handle(): int
     {
-        if ($this->option('client') && $this->option('admin')) {
-            $this->error('You cannot use --client and --admin at the same time.');
-            return self::FAILURE;
-        }
-
         if ($this->fileSystem->exists($this->sourceFilePath) && !$this->option('force')) {
             $this->error('Config file already exists. Use --force to overwrite.');
             return self::FAILURE;
         }
 
-        if ($this->option('client')) {
-            $this->info('Configuring CloudSass Client Package..');
-            $this->fileSystem->put($this->sourceFilePath, $this->getSourceFile());
-            $this->info('Configured CloudSass Client Package.');
-            return self::SUCCESS;
-        } elseif ($this->option('admin')) {
-            $this->info('Configuring CloudSass Admin Package..');
-            $this->fileSystem->put($this->sourceFilePath, $this->getSourceFile());
-            $this->info('Configured CloudSass Client Package.');
-            return self::SUCCESS;
-        } else {
-            $this->error('You must specify either --client or --admin.');
-            return self::FAILURE;
-        }
-
-        return self::FAILURE;
+        $this->info('Configuring CloudSass Package..');
+        $this->fileSystem->put($this->sourceFilePath, $this->getSourceFile());
+        $this->info('Configured CloudSass Package.');
+        return self::SUCCESS;
     }
 
     public function getSourceFilePath()
@@ -75,7 +58,7 @@ class CloudSassConfigCommand extends Command
     public function getStubVariables()
     {
         return [
-            'TYPE' => $this->option('client') ? 'client' : 'admin',
+            'TYPE' => 'admin',
         ];
     }
 

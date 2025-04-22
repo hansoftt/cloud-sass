@@ -21,8 +21,7 @@ class ClientsController extends Controller
 
     public function create()
     {
-        $projects = Project::all(); // Fetch all projects from the database
-        return view('cloud-sass::clients.create', ['projects' => $projects]);
+        return view('cloud-sass::clients.create');
     }
 
     public function store(Request $request)
@@ -32,7 +31,6 @@ class ClientsController extends Controller
             'email' => 'required|email|max:255|unique:cloud_sass_clients_table,email',
             'phone' => 'required|string|max:255',
             'subdomain' => 'required|string|max:255',
-            'project_id' => 'required|exists:cloud_sass_projects_table,id',
         ]);
 
         $client = Client::query()->create($validated);
@@ -50,11 +48,9 @@ class ClientsController extends Controller
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
-        $projects = Project::all(); // Fetch all projects from the database
-
         // You can also pass any additional data to the view if needed
         // For example, you can pass a list of clients or other related data
-        return view('cloud-sass::clients.edit', ['client' => $client, 'projects' => $projects]);
+        return view('cloud-sass::clients.edit', ['client' => $client]);
     }
 
     public function update($id, Request $request)
@@ -64,7 +60,6 @@ class ClientsController extends Controller
             'email' => 'required|email|max:255|unique:cloud_sass_clients_table,email,' . $id,
             'phone' => 'required|string|max:255',
             'subdomain' => 'required|string|max:255',
-            'project_id' => 'required|exists:cloud_sass_projects_table,id',
         ]);
 
         $client = Client::findOrFail($id); // Fetch the client by ID
@@ -128,7 +123,7 @@ class ClientsController extends Controller
 
         Artisan::call('migrate', [
             '--database' => 'mysql',
-            '--path' => $client->project->migrations_location,
+            '--path' => config('cloud-sass.migrations_location'),
             '--force' => true,
         ]);
 

@@ -3,4 +3,5 @@
 // config for Hansoft/CloudSass
 return [
     'type' => '$TYPE', // admin or client
+    'migrations_location => 'church_migrations',
 ];

@@ -34,11 +34,6 @@ class CloudSassSSLCommand extends Command
     {
         $this->info('Generating SSL certificate...');
 
-        if (config('cloud-sass.type') !== 'client') {
-            $this->error('This command is only available for client type.');
-            return self::FAILURE;
-        }
-
         if (! $this->option('site')) {
             $this->error('Site name is required.');
             return self::FAILURE;

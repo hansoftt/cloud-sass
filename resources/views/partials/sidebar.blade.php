@@ -26,12 +26,6 @@
                             <span class="nk-menu-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nk-menu-item {{ request()->routeIs('cloud-sass.projects.*') ? 'active current-page' : '' }}">
-                        <a href="{{ route('cloud-sass.projects.index') }}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-diamond"></em></span>
-                            <span class="nk-menu-text">Projects</span>
-                        </a>
-                    </li>
                     <li class="nk-menu-item {{ request()->routeIs('cloud-sass.clients.*') ? 'active current-page' : '' }}">
                         <a href="{{ route('cloud-sass.clients.index') }}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
