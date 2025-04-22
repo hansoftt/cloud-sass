@@ -28,14 +28,15 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/cloud-sass', 'as' =
         Route::post('/store', [ProjectsController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ProjectsController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ProjectsController::class, 'update'])->name('update');
-        Route::post('/destroy/{id}', [ProjectsController::class, 'destroy'])->name('destroy');
+        Route::post('/destroy', [ProjectsController::class, 'destroy'])->name('destroy');
     });
 
     Route::group(['prefix' => '/clients', 'as' => 'clients.'], function () {
         Route::get('/', [ClientsController::class, 'index'])->name('index');
-        Route::get('/{id}', [ClientsController::class, 'show'])->name('show');
+        Route::get('/create', [ClientsController::class, 'create'])->name('create');
         Route::post('/store', [ClientsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ClientsController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ClientsController::class, 'update'])->name('update');
-        Route::post('/destroy/{id}', [ClientsController::class, 'destroy'])->name('destroy');
+        Route::post('/destroy', [ClientsController::class, 'destroy'])->name('destroy');
     });
 });

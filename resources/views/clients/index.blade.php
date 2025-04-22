@@ -1,6 +1,6 @@
 @extends('cloud-sass::layouts.app')
 
-@section('title', 'Projects')
+@section('title', 'Clients')
 
 @section('content')
     <div class="container">
@@ -8,10 +8,10 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Projects') }}
+                        {{ __('Clients') }}
                         <div class="float-end">
-                            <a href="{{ route('cloud-sass.projects.create') }}" class="btn btn-primary">
-                                {{ __('Create Project') }}
+                            <a href="{{ route('cloud-sass.clients.create') }}" class="btn btn-primary">
+                                {{ __('Create Client') }}
                             </a>
                         </div>
                     </div>
@@ -33,30 +33,36 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Project Name</th>
-                                            <th>Migrations Location</th>
+                                            <th>Client Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Subdomain</th>
+                                            <th>Project</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    @forelse($projects as $project)
+                                    @forelse($clients as $client)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $project->name }}</td>
-                                            <td>{{ $project->migrations_location ?: 'N/A' }}</td>
+                                            <td>{{ $client->name }}</td>
+                                            <td>{{ $client->email }}</td>
+                                            <td>{{ $client->phone }}</td>
+                                            <td>{{ $client->subdomain }}</td>
+                                            <td>{{ $client->project->name }}</td>
                                             <td>
-                                                <a href="{{ route('cloud-sass.projects.edit', ['id' => $project->id]) }}"
+                                                <a href="{{ route('cloud-sass.clients.edit', ['id' => $client->id]) }}"
                                                     class="btn btn-info">
                                                     {{ __('Edit') }}
                                                 </a>
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="deleteProject({{ $project->id }})">
+                                                    onclick="deleteClient({{ $client->id }})">
                                                     {{ __('Delete') }}
                                                 </button>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4">No projects found.</td>
+                                            <td colspan="7">No clients found.</td>
                                         </tr>
                                     @endforelse
                                 </table>
@@ -68,20 +74,20 @@
             </div>
         </div>
     </div>
-    <form method="POST" id="delete_project_form" action="{{ route('cloud-sass.projects.destroy') }}">
+    <form method="POST" id="delete_client_form" action="{{ route('cloud-sass.clients.destroy') }}">
         @csrf
-        <input type="hidden" name="id" id="project_id">
+        <input type="hidden" name="id" id="client_id">
     </form>
 @endsection
 
 @section('scripts')
     <script>
-        function deleteProject(id) {
-            if (confirm('Are you sure you want to delete this project?')) {
-                // Set the project ID in the hidden form
-                document.getElementById('project_id').value = id;
+        function deleteClient(id) {
+            if (confirm('Are you sure you want to delete this client?')) {
+                // Set the client ID in the hidden form
+                document.getElementById('client_id').value = id;
                 // Submit the form
-                document.getElementById('delete_project_form').submit();
+                document.getElementById('delete_client_form').submit();
             }
         }
     </script>

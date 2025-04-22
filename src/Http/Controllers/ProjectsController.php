@@ -60,10 +60,15 @@ class ProjectsController extends Controller
         return redirect()->route('cloud-sass.projects.index')->with('success', 'Project updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        // Handle the project deletion logic here
-        // For example, you can delete the project from the database
+        $id = $request->id;
+        $project = Project::findOrFail($id); // Fetch the project by ID
+        if (!$project) {
+            return redirect()->route('cloud-sass.projects.index')->with('error', 'Project not found.');
+        }
+
+        $project->delete(); // Delete the project
 
         return redirect()->route('cloud-sass.projects.index')->with('success', 'Project deleted successfully.');
     }
