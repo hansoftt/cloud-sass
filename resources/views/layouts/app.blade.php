@@ -19,11 +19,12 @@
         }
     </style>
 
-    @filamentStyles
 
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('vendor/cloud-sass/assets/css/dashlite.css') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('vendor/cloud-sass/assets/css/theme.css') }}">
+
+    @livewireStyles
 
     @stack('styles')
 
@@ -150,7 +151,7 @@
     <!-- app-root @e -->
 
     <!-- JavaScript -->
-    @filamentScripts
+    @livewireScripts
 
     <script src="{{ asset('vendor/cloud-sass/assets/js/bundle.js') }}"></script>
     <script src="{{ asset('vendor/cloud-sass/assets/js/scripts.js') }}"></script>
