@@ -2,34 +2,62 @@
 
 namespace Hansoft\CloudSass\Http\Controllers;
 
+use Hansoft\CloudSass\Models\Project;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class ProjectsController extends Controller
 {
     public function index()
     {
-        return view('cloud-sass::projects.index');
+        $projects = Project::all(); // Fetch all projects from the database
+        return view('cloud-sass::projects.index', ['projects' => $projects]);
     }
 
-    public function show($id)
+    public function create()
     {
-        return view('cloud-sass::projects.show', ['projectId' => $id]);
+        return view('cloud-sass::projects.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        // Handle the project creation logic here
-        // For example, you can validate the request and create a new project in the database
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:cloud_sass_projects_table,name',
+            'migrations_location' => 'required|string|max:255',
+        ]);
 
-        return redirect()->route('projects.index')->with('success', 'Project created successfully.');
+        Project::query()->create($validated);
+
+        return redirect()->route('cloud-sass.projects.index')->with('success', 'Project created successfully.');
     }
 
-    public function update($id)
+    public function edit($id)
     {
-        // Handle the project update logic here
-        // For example, you can validate the request and update the project in the database
+        $project = Project::findOrFail($id); // Fetch the project by ID
+        if (!$project) {
+            return redirect()->route('cloud-sass.projects.index')->with('error', 'Project not found.');
+        }
 
-        return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
+        // You can also pass any additional data to the view if needed
+        // For example, you can pass a list of clients or other related data
+        return view('cloud-sass::projects.edit', ['project' => $project]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:cloud_sass_projects_table,name,' . $id,
+            'migrations_location' => 'required|string|max:255',
+        ]);
+
+        $project = Project::findOrFail($id); // Fetch the project by ID
+        if (!$project) {
+            return redirect()->route('cloud-sass.projects.index')->with('error', 'Project not found.');
+        }
+
+        $project->update($validated); // Update the project with the validated data
+
+        return redirect()->route('cloud-sass.projects.index')->with('success', 'Project updated successfully.');
     }
 
     public function destroy($id)
@@ -37,6 +65,6 @@ class ProjectsController extends Controller
         // Handle the project deletion logic here
         // For example, you can delete the project from the database
 
-        return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
+        return redirect()->route('cloud-sass.projects.index')->with('success', 'Project deleted successfully.');
     }
 }

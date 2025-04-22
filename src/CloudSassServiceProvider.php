@@ -6,9 +6,11 @@ use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassInstallCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
+use Hansoft\CloudSass\Http\Livewire\ProjectsTable;
 use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -54,9 +56,10 @@ class CloudSassServiceProvider extends PackageServiceProvider
             /** @var Router $router */
             $router = $this->app['router'];
             $router->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
-            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
-            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         }
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
     protected function isAdmin(): bool

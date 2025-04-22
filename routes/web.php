@@ -24,8 +24,9 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/cloud-sass', 'as' =
     // You can also use 'auth:token' middleware if you are using token authentication.
     Route::group(['prefix' => '/projects', 'as' => 'projects.'], function () {
         Route::get('/', [ProjectsController::class, 'index'])->name('index');
-        Route::get('/{id}', [ProjectsController::class, 'show'])->name('show');
+        Route::get('/create', [ProjectsController::class, 'create'])->name('create');
         Route::post('/store', [ProjectsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ProjectsController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ProjectsController::class, 'update'])->name('update');
         Route::post('/destroy/{id}', [ProjectsController::class, 'destroy'])->name('destroy');
     });
