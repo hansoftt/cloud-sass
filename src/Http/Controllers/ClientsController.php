@@ -90,8 +90,6 @@ class ClientsController extends Controller
         // Logic to drop the database for the client
         DB::statement("DROP DATABASE IF EXISTS `" . $client->database_name . "`");
 
-        $this->reconnectSqlite();
-
         $client->delete(); // Delete the client
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client deleted successfully.');
