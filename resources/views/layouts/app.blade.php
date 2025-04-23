@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Softnio">
+    <meta name="author" content="Hansoft Technologies Private Ltd">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
     <meta name="description"
-        content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+        content="Cloud SASS is a powerful and flexible SaaS application template built with Laravel.">
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="{{ asset('vendor/cloud-sass/assets/images/favicon.png') }}">
     <!-- Page Title  -->

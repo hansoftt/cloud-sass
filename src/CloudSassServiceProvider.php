@@ -36,7 +36,8 @@ class CloudSassServiceProvider extends PackageServiceProvider
     {
         Request::macro('subdomain', function () {
             $domainParts = explode('.', request()->getHost());
-            if (count($domainParts) < 3 || $domainParts[0] === 'www') {
+            $domainPartsConfig = config('cloud-sass.domain_parts', 3);
+            if (count($domainParts) <= $domainPartsConfig || $domainParts[0] === 'www') {
                 return null;
             }
 
