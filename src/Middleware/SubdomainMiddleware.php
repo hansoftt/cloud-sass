@@ -24,18 +24,8 @@ class SubdomainMiddleware
 
             $databaseName = $client->database_name;
             $this->reconnectMySQL($databaseName);
-
-            if ($request->header('customer-code') === $subdomain) {
-                return $next($request);
-            } else {
-                return redirect()->route(config('cloud-sass.client_route'))->header('customer-code', $subdomain);
-            }
         } else {
             $this->reconnectMySQL(config('database.connections.mysql.database'));
-
-            if (!$request->hasHeader('customer-code')) {
-                return redirect()->route(config('cloud-sass.client_route'))->header('customer-code', null);
-            }
         }
 
         return $next($request);
