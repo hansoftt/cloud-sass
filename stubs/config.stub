@@ -5,4 +5,6 @@ return [
     'migrations_location' => 'database/migrations', // Where clients migrations reside
     'mysql_root_user' => 'root', // Super MySQL database user who has privileges to create/drop database
     'mysql_root_password' => null,// Super MySQL database user password
+    'client_route' => null,
+    'admin_route' => null,
 ];
