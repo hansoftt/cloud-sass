@@ -89,6 +89,8 @@ class ClientsController extends Controller
 		
         // Logic to drop the database for the client
         DB::statement("DROP DATABASE IF EXISTS `" . $client->database_name . "`");
+		
+		$this->reconnectMySQL(config('database.connections.mysql.database'));
 
         $client->delete(); // Delete the client
 
