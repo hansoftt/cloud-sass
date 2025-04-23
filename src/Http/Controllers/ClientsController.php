@@ -34,6 +34,9 @@ class ClientsController extends Controller
 
         $client = Client::query()->create($validated);
 
+        // Set max execution time and memory limit
+        $this->setMysqlMaxExecutionLimit();
+
         // Create the database for the client
         $this->createDatabase($client);
 
@@ -126,5 +129,12 @@ class ClientsController extends Controller
             Hash::make($client->phone),
             null
         ]);
+    }
+
+    protected function setMysqlMaxExecutionLimit()
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
     }
 }
