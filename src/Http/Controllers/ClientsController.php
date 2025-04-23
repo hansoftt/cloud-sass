@@ -83,6 +83,10 @@ class ClientsController extends Controller
         }
 
         $this->reconnectMySQL(null);
+		
+		// Set max execution time and memory limit
+        $this->setMysqlMaxExecutionLimit();
+		
         // Logic to drop the database for the client
         DB::statement("DROP DATABASE IF EXISTS `" . $client->database_name . "`");
 
