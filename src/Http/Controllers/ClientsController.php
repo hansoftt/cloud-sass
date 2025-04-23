@@ -82,17 +82,17 @@ class ClientsController extends Controller
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
+        $databaseName = $client->database_name; // Get the database name
+
+        $client->delete(); // Delete the client record from the database
+
         $this->reconnectMySQL(null);
-		
+
 		// Set max execution time and memory limit
         $this->setMysqlMaxExecutionLimit();
-		
-        // Logic to drop the database for the client
-        DB::statement("DROP DATABASE IF EXISTS `" . $client->database_name . "`");
-		
-		$this->reconnectMySQL(config('database.connections.mysql.database'));
 
-        $client->delete(); // Delete the client
+        // Logic to drop the database for the client
+        DB::statement("DROP DATABASE IF EXISTS `" . $databaseName . "`");
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client deleted successfully.');
     }
