@@ -8,7 +8,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class ClientsController extends Controller
 {
@@ -137,11 +136,12 @@ class ClientsController extends Controller
         ]);
 
         if (config('cloud-sass.database_seeder')) {
-            Artisan::call(config('cloud-sass.database_seeder'),
-                [
-                    $client->name, $client->email, $client->phone, 'admin'
-                ]
-            );
+            Artisan::call(config('cloud-sass.database_seeder'), [
+                'name'     => $client->name,
+                'email'    => $client->email,
+                'password' => $client->phone,
+                'role'     => 'admin',
+            ]);
         }
     }
 
