@@ -19,7 +19,11 @@ class SubdomainMiddleware
         if ($subdomain) {
             $client = Client::where('subdomain', $subdomain)->first();
             if (!$client) {
-                return view('cloud-sass::errors.404', ['message' => 'Client not found']);
+                return response()->view('cloud-sass::errors.503', ['message' => 'Client not found'], 503);
+            }
+
+            if ($client->is_expired) {
+                return response()->view('cloud-sass::errors.503', ['message' => 'Subscription expired. Please contact support.'], 503);
             }
 
             $databaseName = $client->database_name;
