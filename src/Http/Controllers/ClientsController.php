@@ -33,7 +33,7 @@ class ClientsController extends Controller
             'phone'           => 'required|string|max:255',
             'subdomain'       => 'required|string|max:255',
             'subscription_id' => 'required|exists:cloud_sass_subscriptions_table,id',
-            'is_active'       => 'required|boolean',
+            'is_active'       => 'nullable',
         ]);
 
         $client = Client::query()->create($validated);
@@ -71,7 +71,7 @@ class ClientsController extends Controller
             'phone'           => 'required|string|max:255',
             'subdomain'       => 'required|string|max:255',
             'subscription_id' => 'required|exists:cloud_sass_subscriptions_table,id',
-            'is_active'       => 'required|boolean',
+            'is_active'       => 'nullable',
         ]);
 
         $client = Client::findOrFail($id); // Fetch the client by ID
