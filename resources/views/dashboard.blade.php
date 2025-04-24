@@ -23,7 +23,7 @@
                                     {{ session('error') }}
                                 </div>
                             @endif
-                            <h3>{{ __('Welcome to Cloud SASS Dashbaord') }}</h3>
+                            <p>{{ __('Welcome to Cloud SASS Dashbaord') }}</p>
                         </div>
                     </div>
                 </div>
