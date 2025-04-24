@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Cloud SASS Dashbaord') }}
+                        {{ __('Cloud SASS Dashboard') }}
                     </div>
 
                     <div class="card-body">
