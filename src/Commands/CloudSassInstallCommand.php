@@ -31,6 +31,11 @@ class CloudSassInstallCommand extends Command
             return self::FAILURE;
         }
 
+        if ($this->runMigrations() === self::FAILURE) {
+            $this->error('Failed to install CloudSass Package.');
+            return self::FAILURE;
+        }
+
         $this->info('Seeding Database...');
         $this->seedDatabase();
         $this->info('Database seeded successfully.');
@@ -83,6 +88,21 @@ class CloudSassInstallCommand extends Command
             $this->info('Published CloudSass migrations.');
         } else {
             $this->error('Failed to publish CloudSass migrations.');
+        }
+
+        return $result;
+    }
+
+    protected function runMigrations()
+    {
+        $result = $this->call('migrate', [
+            '--force' => $this->option('force'),
+        ]);
+
+        if ($result === self::SUCCESS) {
+            $this->info('Ran CloudSass migrations.');
+        } else {
+            $this->error('Failed to run CloudSass migrations.');
         }
 
         return $result;
