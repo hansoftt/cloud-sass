@@ -1,6 +1,7 @@
 <?php
 
 use Hansoft\CloudSass\Http\Controllers\ClientsController;
+use Hansoft\CloudSass\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/cloud-sass', 'as' => 'cloud-sass.'], function () {
@@ -28,5 +29,14 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/cloud-sass', 'as' =
         Route::get('/edit/{id}', [ClientsController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ClientsController::class, 'update'])->name('update');
         Route::post('/destroy', [ClientsController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => '/subscriptions', 'as' => 'subscriptions.'], function () {
+        Route::get('/', [SubscriptionsController::class, 'index'])->name('index');
+        Route::get('/create', [SubscriptionsController::class, 'create'])->name('create');
+        Route::post('/store', [SubscriptionsController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [SubscriptionsController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [SubscriptionsController::class, 'update'])->name('update');
+        Route::post('/destroy', [SubscriptionsController::class, 'destroy'])->name('destroy');
     });
 });
