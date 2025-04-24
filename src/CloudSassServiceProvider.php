@@ -53,8 +53,9 @@ class CloudSassServiceProvider extends PackageServiceProvider
         $kernel->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
         //$kernel->prependMiddlewareToGroup('web', HandleCustomerMiddleware::class);
 
+        // Allow only admin requests to access the Cloud SASS admmin panel
         $request = app(Request::class);
-        if ($request->subdomain()) {
+        if ($request->subdomain() !== null) {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         }
 
