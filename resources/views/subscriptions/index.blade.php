@@ -1,6 +1,6 @@
 @extends('cloud-sass::layouts.app')
 
-@section('title', 'Clients')
+@section('title', 'Subscriptions')
 
 @section('content')
     <div class="container">
@@ -8,10 +8,10 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ __('Clients') }}
+                        {{ __('Subscriptions') }}
                         <div class="float-end">
-                            <a href="{{ route('cloud-sass.clients.create') }}" class="btn btn-primary">
-                                {{ __('Create Client') }}
+                            <a href="{{ route('cloud-sass.subscriptions.create') }}" class="btn btn-primary">
+                                {{ __('Create Subscription') }}
                             </a>
                         </div>
                     </div>
@@ -33,40 +33,34 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Client Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Subdomain</th>
-                                            <th>Subscription</th>
+                                            <th>Subscription Name</th>
+                                            <th>Validity (Days)</th>
+                                            <th># of Users</th>
+                                            <th># of Current Clients</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    @forelse($clients as $client)
+                                    @forelse($subscriptions as $subscription)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $client->name }}</td>
-                                            <td>{{ $client->email }}</td>
-                                            <td>{{ $client->phone }}</td>
-                                            <td>{{ $client->subdomain }}</td>
+                                            <td>{{ $subscription->name }}</td>
+                                            <td>{{ $subscription->validity }}</td>
+                                            <td>{{ $subscription->no_of_users }}</td>
+                                            <td>{{ $subscription->clients->count() }}</td>
                                             <td>
-                                                {{ $client->subscription->name }}
-                                                /
-                                                ({{ $client->subscription->validity }} days)
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('cloud-sass.clients.edit', ['id' => $client->id]) }}"
+                                                <a href="{{ route('cloud-sass.subscriptions.edit', ['id' => $subscription->id]) }}"
                                                     class="btn btn-info">
                                                     {{ __('Edit') }}
                                                 </a>
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="deleteClient({{ $client->id }})">
+                                                    onclick="deleteSubscription({{ $subscription->id }})">
                                                     {{ __('Delete') }}
                                                 </button>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6">No clients found.</td>
+                                            <td colspan="6">No subscriptions found.</td>
                                         </tr>
                                     @endforelse
                                 </table>
@@ -78,20 +72,20 @@
             </div>
         </div>
     </div>
-    <form method="POST" id="delete_client_form" action="{{ route('cloud-sass.clients.destroy') }}">
+    <form method="POST" id="delete_subscription_form" action="{{ route('cloud-sass.subscriptions.destroy') }}">
         @csrf
-        <input type="hidden" name="id" id="client_id">
+        <input type="hidden" name="id" id="subscription_id">
     </form>
 @endsection
 
 @section('scripts')
     <script>
-        function deleteClient(id) {
-            if (confirm('Are you sure you want to delete this client?')) {
-                // Set the client ID in the hidden form
-                document.getElementById('client_id').value = id;
+        function deleteSubscription(id) {
+            if (confirm('Are you sure you want to delete this subscription?')) {
+                // Set the subscription ID in the hidden form
+                document.getElementById('subscription_id').value = id;
                 // Submit the form
-                document.getElementById('delete_client_form').submit();
+                document.getElementById('delete_subscription_form').submit();
             }
         }
     </script>

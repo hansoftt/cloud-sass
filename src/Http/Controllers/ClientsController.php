@@ -1,8 +1,8 @@
 <?php
-
 namespace Hansoft\CloudSass\Http\Controllers;
 
 use Hansoft\CloudSass\Models\Client;
+use Hansoft\CloudSass\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
@@ -20,16 +20,19 @@ class ClientsController extends Controller
 
     public function create()
     {
-        return view('cloud-sass::clients.create');
+        // Fetch all subscriptions from the database
+        $subscriptions = Subscription::all();
+        return view('cloud-sass::clients.create', ['subscriptions' => $subscriptions]);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:cloud_sass_clients_table,name',
-            'email' => 'required|email|max:255|unique:cloud_sass_clients_table,email',
-            'phone' => 'required|string|max:255',
-            'subdomain' => 'required|string|max:255',
+            'name'            => 'required|string|max:255|unique:cloud_sass_clients_table,name',
+            'email'           => 'required|email|max:255|unique:cloud_sass_clients_table,email',
+            'phone'           => 'required|string|max:255',
+            'subdomain'       => 'required|string|max:255',
+            'subscription_id' => 'required|exists:cloud_sass_subscriptions_table,id',
         ]);
 
         $client = Client::query()->create($validated);
@@ -46,26 +49,30 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Client::findOrFail($id); // Fetch the client by ID
-        if (!$client) {
+        if (! $client) {
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
+        // Fetch all subscriptions from the database
+        $subscriptions = Subscription::all();
+
         // You can also pass any additional data to the view if needed
         // For example, you can pass a list of clients or other related data
-        return view('cloud-sass::clients.edit', ['client' => $client]);
+        return view('cloud-sass::clients.edit', ['client' => $client, 'subscriptions' => $subscriptions]);
     }
 
     public function update($id, Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:cloud_sass_clients_table,name,' . $id,
-            'email' => 'required|email|max:255|unique:cloud_sass_clients_table,email,' . $id,
-            'phone' => 'required|string|max:255',
-            'subdomain' => 'required|string|max:255',
+            'name'            => 'required|string|max:255|unique:cloud_sass_clients_table,name,' . $id,
+            'email'           => 'required|email|max:255|unique:cloud_sass_clients_table,email,' . $id,
+            'phone'           => 'required|string|max:255',
+            'subdomain'       => 'required|string|max:255',
+            'subscription_id' => 'required|exists:cloud_sass_subscriptions_table,id',
         ]);
 
         $client = Client::findOrFail($id); // Fetch the client by ID
-        if (!$client) {
+        if (! $client) {
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
@@ -76,9 +83,9 @@ class ClientsController extends Controller
 
     public function destroy(Request $request)
     {
-        $id = $request->id;
+        $id     = $request->id;
         $client = Client::findOrFail($id); // Fetch the client by ID
-        if (!$client) {
+        if (! $client) {
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
@@ -88,7 +95,7 @@ class ClientsController extends Controller
 
         $this->reconnectMySQL(null);
 
-		// Set max execution time and memory limit
+        // Set max execution time and memory limit
         $this->setMysqlMaxExecutionLimit();
 
         // Logic to drop the database for the client
@@ -111,19 +118,19 @@ class ClientsController extends Controller
     {
         $this->reconnectMySQL(null);
 
-        // Logic to create a database for the client
-        // This is just a placeholder. You should implement the actual logic to create a database.
+                                                // Logic to create a database for the client
+                                                // This is just a placeholder. You should implement the actual logic to create a database.
         $databaseName = $client->database_name; // Assuming you have a method to get the database name
-        // Use your database creation logic here
-        // For example, using Laravel's DB facade or any other method you prefer
+                                                // Use your database creation logic here
+                                                // For example, using Laravel's DB facade or any other method you prefer
         DB::statement("CREATE DATABASE IF NOT EXISTS `$databaseName`");
 
         $this->reconnectMySQL($databaseName);
 
         Artisan::call('migrate', [
             '--database' => 'mysql',
-            '--path' => config('cloud-sass.migrations_location'),
-            '--force' => true,
+            '--path'     => config('cloud-sass.migrations_location'),
+            '--force'    => true,
         ]);
 
         DB::statement('INSERT INTO users (`name`, `email`, `email_verified_at`, `password`, `remember_token`) VALUES (?, ?, ?, ?, ?)', [
@@ -131,7 +138,7 @@ class ClientsController extends Controller
             $client->email,
             now(),
             Hash::make($client->phone),
-            null
+            null,
         ]);
     }
 

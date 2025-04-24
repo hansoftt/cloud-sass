@@ -23,6 +23,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
             ->hasViews('cloud-sass')
             ->hasRoute('web')
             ->hasMigrations([
+                'cloud_sass_subscriptions_table',
                 'cloud_sass_clients_table',
             ])
             ->hasCommands([
@@ -51,7 +52,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
     {
         $kernel     = app(Kernel::class);
         $kernel->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
-        $kernel->prependMiddlewareToGroup('web', HandleCustomerMiddleware::class);
+        //$kernel->prependMiddlewareToGroup('web', HandleCustomerMiddleware::class);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');

@@ -32,6 +32,12 @@
                             <span class="nk-menu-text">Clients</span>
                         </a>
                     </li>
+                    <li class="nk-menu-item {{ request()->routeIs('cloud-sass.subscriptions.*') ? 'active current-page' : '' }}">
+                        <a href="{{ route('cloud-sass.subscriptions.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-icon"><em class="icon ni ni-calendar"></em></span>
+                            <span class="nk-menu-text">Subscriptions</span>
+                        </a>
+                    </li>
                 </ul><!-- .nk-menu -->
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->

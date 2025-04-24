@@ -61,6 +61,22 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    <div class="col-md-3">
+                                        <label for="subscription_id" class="form-label">Subscription</label>
+                                        <select class="form-control" id="subscription_id" name="subscription_id" required>
+                                            <option value="">Select Subscription</option>
+                                            @foreach ($subscriptions as $subscription)
+                                                <option value="{{ $subscription->id }}"
+                                                    {{ old('subscription_id') == $subscription->id ? 'selected' : '' }}>
+                                                    {{ $subscription->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('subscription_id')
+                                            <div class="alert alert-danger mt-2">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                     <div class="col-md-2 align-content-end">
                                         <button type="submit" class="btn btn-primary mt-4">Create Client</button>
                                     </div>

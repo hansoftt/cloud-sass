@@ -2,6 +2,8 @@
 namespace Hansoft\CloudSass\Commands;
 
 use Illuminate\Console\Command;
+use Hansoft\CloudSass\Models\Client;
+use Hansoft\CloudSass\Models\Subscription;
 
 class CloudSassInstallCommand extends Command
 {
@@ -28,6 +30,10 @@ class CloudSassInstallCommand extends Command
             $this->error('Failed to install CloudSass Package.');
             return self::FAILURE;
         }
+
+        $this->info('Seeding Database...');
+        $this->seedDatabase();
+        $this->info('Database seeded successfully.');
 
         $this->info('Installed CloudSass Package.');
         return self::SUCCESS;
@@ -80,5 +86,15 @@ class CloudSassInstallCommand extends Command
         }
 
         return $result;
+    }
+
+    protected function seedDatabase()
+    {
+        Subscription::query()->updateOrCreate([
+            'name' => 'Trial',
+        ], [
+            'validity' => 7,
+            'no_of_users' => 5,
+        ]);
     }
 }
