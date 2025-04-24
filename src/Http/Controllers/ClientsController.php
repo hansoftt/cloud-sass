@@ -137,7 +137,12 @@ class ClientsController extends Controller
         ]);
 
         if (config('cloud-sass.database_seeder')) {
-            Artisan::call(config('cloud-sass.database_seeder'), config('cloud-sass.database_seeder_args'));
+            Artisan::call(config('cloud-sass.database_seeder'),
+                [
+                    $client->name, $client->email, $client->phone, 'admin',
+                    '--force'    => true,
+                ]
+            );
         }
     }
 
