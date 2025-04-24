@@ -9,6 +9,7 @@ use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
 use Hansoft\CloudSass\Middleware\HandleCustomerMiddleware;
 use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -49,6 +50,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
+        /** @var HttpKernel $kernel */
         $kernel     = app(Kernel::class);
         $kernel->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
         //$kernel->prependMiddlewareToGroup('web', HandleCustomerMiddleware::class);
