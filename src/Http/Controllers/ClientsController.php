@@ -137,7 +137,7 @@ class ClientsController extends Controller
         ]);
 
         if (config('cloud-sass.database_seeder')) {
-            $this->seedDatabase($databaseName);
+            Artisan::call(config('cloud-sass.database_seeder'), config('cloud-sass.database_seeder_args'));
         }
     }
 
@@ -146,16 +146,5 @@ class ClientsController extends Controller
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '-1');
         set_time_limit(0);
-    }
-
-    protected function seedDatabase($databaseName)
-    {
-        $this->reconnectMySQL($databaseName);
-
-        Artisan::call('db:seed', [
-            '--database' => 'mysql',
-            '--class'    => config('cloud-sass.database_seeder'),
-            '--force'    => true,
-        ]);
     }
 }
