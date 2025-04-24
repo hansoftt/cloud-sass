@@ -27,6 +27,10 @@ class SubdomainMiddleware
                 return response()->view('cloud-sass::errors.503', ['message' => 'Subscription expired. Please contact support.'], 503);
             }
 
+            if ($client->is_active) {
+                return response()->view('cloud-sass::errors.503', ['message' => 'Account inactive. Please contact support.'], 503);
+            }
+
             $databaseName = $client->database_name;
             $this->reconnectMySQL($databaseName);
         } else {

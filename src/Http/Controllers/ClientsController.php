@@ -21,7 +21,8 @@ class ClientsController extends Controller
     {
         // Fetch all subscriptions from the database
         $subscriptions = Subscription::all();
-        return view('cloud-sass::clients.create', ['subscriptions' => $subscriptions]);
+        $active_statuses = [true, false]; // Define the active statuses
+        return view('cloud-sass::clients.create', ['subscriptions' => $subscriptions, 'active_statuses' => $active_statuses]);
     }
 
     public function store(Request $request)
@@ -32,6 +33,7 @@ class ClientsController extends Controller
             'phone'           => 'required|string|max:255',
             'subdomain'       => 'required|string|max:255',
             'subscription_id' => 'required|exists:cloud_sass_subscriptions_table,id',
+            'is_active'       => 'required|boolean',
         ]);
 
         $client = Client::query()->create($validated);
@@ -54,10 +56,11 @@ class ClientsController extends Controller
 
         // Fetch all subscriptions from the database
         $subscriptions = Subscription::all();
+        $active_statuses = [true, false]; // Define the active statuses
 
         // You can also pass any additional data to the view if needed
         // For example, you can pass a list of clients or other related data
-        return view('cloud-sass::clients.edit', ['client' => $client, 'subscriptions' => $subscriptions]);
+        return view('cloud-sass::clients.edit', ['client' => $client, 'subscriptions' => $subscriptions, 'active_statuses' => $active_statuses]);
     }
 
     public function update($id, Request $request)
@@ -68,6 +71,7 @@ class ClientsController extends Controller
             'phone'           => 'required|string|max:255',
             'subdomain'       => 'required|string|max:255',
             'subscription_id' => 'required|exists:cloud_sass_subscriptions_table,id',
+            'is_active'       => 'required|boolean',
         ]);
 
         $client = Client::findOrFail($id); // Fetch the client by ID

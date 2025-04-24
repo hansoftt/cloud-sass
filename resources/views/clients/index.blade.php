@@ -38,6 +38,7 @@
                                             <th>Phone</th>
                                             <th>Subdomain</th>
                                             <th>Subscription</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -52,6 +53,11 @@
                                                 {{ $client->subscription->name }}
                                                 /
                                                 ({{ $client->subscription->validity }} days)
+                                            </td>
+                                            <td>
+                                                <span class="badge {{ $client->is_active ? 'badge-success' : 'badge-danger' }}">
+                                                    {{ $client->is_active ? 'Active' : 'Inactive' }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <a href="{{ route('cloud-sass.clients.edit', ['id' => $client->id]) }}"

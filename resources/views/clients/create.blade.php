@@ -77,6 +77,21 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    <div class="col-md-3">
+                                        <label for="is_active" class="form-label">Is Active</label>
+                                        <select class="form-control" id="is_active" name="is_active" required>
+                                            @foreach ($active_statuses as $active_status)
+                                                <option value="{{ $active_status }}"
+                                                    {{ old('is_active') == $active_status ? 'selected' : '' }}>
+                                                    {{ $active_status ? 'Active' : 'Inactive' }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('is_active')
+                                            <div class="alert alert-danger mt-2">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                     <div class="col-md-2 align-content-end">
                                         <button type="submit" class="btn btn-primary mt-4">Create Client</button>
                                     </div>
