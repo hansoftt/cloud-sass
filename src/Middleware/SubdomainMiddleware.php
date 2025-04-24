@@ -19,8 +19,6 @@ class SubdomainMiddleware
         if ($subdomain) {
             $client = Client::where('subdomain', $subdomain)->first();
 
-            Config::set('cloud-sass.admin_mode', false);
-
             if (!$client) {
                 return response()->view('cloud-sass::errors.503', ['message' => 'Client not found'], 503);
             }
@@ -32,7 +30,6 @@ class SubdomainMiddleware
             $databaseName = $client->database_name;
             $this->reconnectMySQL($databaseName);
         } else {
-            Config::set('cloud-sass.admin_mode', true);
             $this->reconnectMySQL(config('database.connections.mysql.database'));
         }
 

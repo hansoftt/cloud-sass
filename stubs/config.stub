@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'admin_mode' => false,
     'domain_parts' => 3, // Number of domain parts splitted by periods (cloud.24x7s.in = 3)
     'migrations_location' => 'database/migrations', // Where clients migrations reside
     'database_seeder' => 'app:seed-database', // Client database seeder
