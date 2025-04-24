@@ -1,10 +1,15 @@
 <?php
 
 use Hansoft\CloudSass\Http\Controllers\ClientsController;
+use Hansoft\CloudSass\Http\Controllers\DashboardController;
 use Hansoft\CloudSass\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/cloud-sass', 'as' => 'cloud-sass.'], function () {
+
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
     // Projects
     // Note: The prefix and route names for projects are the same as clients for consistency.
     // You can change them if needed.

@@ -20,8 +20,8 @@
         <div class="nk-sidebar-content">
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
-                    <li class="nk-menu-item {{ request()->routeIs('dashboard') ? 'active current-page' : '' }}">
-                        <a href="{{ route('dashboard') }}" class="nk-menu-link">
+                    <li class="nk-menu-item {{ request()->routeIs('cloud-sass.dashboard') ? 'active current-page' : '' }}">
+                        <a href="{{ route('cloud-sass.dashboard') }}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
                             <span class="nk-menu-text">Dashboard</span>
                         </a>
