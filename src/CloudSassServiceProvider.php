@@ -55,7 +55,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
 
         // Allow only admin requests to access the Cloud SASS admmin panel
         $request = app(Request::class);
-        if ($request->subdomain() !== null) {
+        if ($request->subdomain() === null) {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         }
 
