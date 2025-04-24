@@ -118,11 +118,14 @@ class ClientsController extends Controller
     {
         $this->reconnectMySQL(null);
 
-                                                // Logic to create a database for the client
-                                                // This is just a placeholder. You should implement the actual logic to create a database.
-        $databaseName = $client->database_name; // Assuming you have a method to get the database name
-                                                // Use your database creation logic here
-                                                // For example, using Laravel's DB facade or any other method you prefer
+        $databaseName = $client->database_name;
+
+        // Logic to create a database for the client
+        // This is just a placeholder. You should implement the actual logic to create a database.
+        // Assuming you have a method to get the database name
+        // Use your database creation logic here
+        // For example, using Laravel's DB facade or any other method you prefer
+
         DB::statement("CREATE DATABASE IF NOT EXISTS `$databaseName`");
 
         $this->reconnectMySQL($databaseName);
@@ -133,13 +136,9 @@ class ClientsController extends Controller
             '--force'    => true,
         ]);
 
-        DB::statement('INSERT INTO users (`name`, `email`, `email_verified_at`, `password`, `remember_token`) VALUES (?, ?, ?, ?, ?)', [
-            $client->name,
-            $client->email,
-            now(),
-            Hash::make($client->phone),
-            null,
-        ]);
+        if (config('cloud-sass.database_seeder')) {
+            $this->seedDatabase($databaseName);
+        }
     }
 
     protected function setMysqlMaxExecutionLimit()
@@ -147,5 +146,16 @@ class ClientsController extends Controller
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '-1');
         set_time_limit(0);
+    }
+
+    protected function seedDatabase($databaseName)
+    {
+        $this->reconnectMySQL($databaseName);
+
+        Artisan::call('db:seed', [
+            '--database' => 'mysql',
+            '--class'    => config('cloud-sass.database_seeder'),
+            '--force'    => true,
+        ]);
     }
 }
