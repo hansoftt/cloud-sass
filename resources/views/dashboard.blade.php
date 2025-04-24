@@ -1,6 +1,6 @@
 @extends('cloud-sass::layouts.app')
 
-@section('title', 'Cloud SASS Dashboard')
+@section('title', 'Dashboard')
 
 @section('content')
     <div class="container">
