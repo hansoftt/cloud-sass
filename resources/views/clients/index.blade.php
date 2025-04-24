@@ -55,7 +55,7 @@
                                                 ({{ $client->subscription->validity }} days)
                                             </td>
                                             <td>
-                                                <span class="badge {{ $client->is_active ? 'badge-success' : 'badge-danger' }}">
+                                                <span class="badge rounded-pill {{ $client->is_active ? 'bg-success' : 'bg-danger' }}">
                                                     {{ $client->is_active ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
