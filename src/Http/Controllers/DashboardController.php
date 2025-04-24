@@ -7,6 +7,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('cloud-sass::dashbaord');
+        return view('cloud-sass::dashboard');
     }
 }
