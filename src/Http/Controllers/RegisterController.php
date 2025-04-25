@@ -42,17 +42,19 @@ class RegisterController extends Controller
                 'code'    => 200,
             ]);
         } catch (ValidationException $e) {
+            $message = 'Validation error occurred: ' . $e->getMessage();
             return response()->json([
                 'error'   => true,
-                'message' => 'Validation error occurred',
+                'message' => $message,
                 'data'    => null,
                 'code'    => 102,
                 'details' => collect($e->errors())->values()->join(', '),
             ]);
         } catch (Exception $e) {
+            $message = 'An error occurred: ' . $e->getMessage();
             return response()->json([
                 'error'   => true,
-                'message' => 'Error occurred',
+                'message' => $message,
                 'data'    => null,
                 'code'    => 103,
                 'details' => (! empty($e) && is_object($e)) ? $e->getMessage() . ' --> ' . $e->getFile() . ' At Line : ' . $e->getLine() : '',
