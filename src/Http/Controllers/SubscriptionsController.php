@@ -1,12 +1,10 @@
 <?php
-
 namespace Hansoft\CloudSass\Http\Controllers;
 
 use Hansoft\CloudSass\Models\Subscription;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
-class SubscriptionsController extends Controller
+class SubscriptionsController extends AdminBaseController
 {
     public function index()
     {
@@ -22,8 +20,8 @@ class SubscriptionsController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:cloud_sass_subscriptions_table,name',
-            'validity' => 'required|integer|min:1',
+            'name'        => 'required|string|max:255|unique:cloud_sass_subscriptions_table,name',
+            'validity'    => 'required|integer|min:1',
             'no_of_users' => 'required|integer|min:1',
         ]);
 
@@ -35,7 +33,7 @@ class SubscriptionsController extends Controller
     public function edit($id)
     {
         $subscription = Subscription::findOrFail($id); // Fetch the subscription by ID
-        if (!$subscription) {
+        if (! $subscription) {
             return redirect()->route('cloud-sass.subscriptions.index')->with('error', 'Subscription not found.');
         }
 
@@ -47,13 +45,13 @@ class SubscriptionsController extends Controller
     public function update($id, Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:cloud_sass_subscriptions_table,name,' . $id,
-            'validity' => 'required|integer|min:1',
+            'name'        => 'required|string|max:255|unique:cloud_sass_subscriptions_table,name,' . $id,
+            'validity'    => 'required|integer|min:1',
             'no_of_users' => 'required|integer|min:1',
         ]);
 
         $subscription = Subscription::findOrFail($id); // Fetch the subscription by ID
-        if (!$subscription) {
+        if (! $subscription) {
             return redirect()->route('cloud-sass.subscriptions.index')->with('error', 'Subscription not found.');
         }
 
@@ -64,9 +62,9 @@ class SubscriptionsController extends Controller
 
     public function destroy(Request $request)
     {
-        $id = $request->id;
+        $id           = $request->id;
         $subscription = Subscription::findOrFail($id); // Fetch the subscription by ID
-        if (!$subscription) {
+        if (! $subscription) {
             return redirect()->route('cloud-sass.subscriptions.index')->with('error', 'Subscription not found.');
         }
 

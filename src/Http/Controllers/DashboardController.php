@@ -1,9 +1,7 @@
 <?php
 namespace Hansoft\CloudSass\Http\Controllers;
 
-use Illuminate\Routing\Controller;
-
-class DashboardController extends Controller
+class DashboardController extends AdminBaseController
 {
     public function index()
     {

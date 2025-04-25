@@ -2,6 +2,7 @@
 
 use Hansoft\CloudSass\Http\Controllers\ClientsController;
 use Hansoft\CloudSass\Http\Controllers\DashboardController;
+use Hansoft\CloudSass\Http\Controllers\RegisterController;
 use Hansoft\CloudSass\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,3 +46,7 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/cloud-sass', 'as' =
         Route::post('/destroy', [SubscriptionsController::class, 'destroy'])->name('destroy');
     });
 });
+
+
+Route::post('cloud-sass/clients/register', [RegisterController::class, 'register'])
+    ->name('cloud-sass.clients.register');
