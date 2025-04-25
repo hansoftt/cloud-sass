@@ -35,11 +35,28 @@ class RegisterController extends Controller
             // Create the database for the client
             $this->createDatabase($client);
 
-            return back()->with('success', 'Client created successfully.');
+            return response()->json([
+                'error'   => false,
+                'message' => 'Trial registered successfully',
+                'data'    => null,
+                'code'    => 200,
+            ]);
         } catch (ValidationException $e) {
-            return back()->with('error', 'Validation failed: ' . collect($e->errors())->values()->join(','));
+            return response()->json([
+                'error'   => true,
+                'message' => 'Validation error occurred',
+                'data'    => null,
+                'code'    => 102,
+                'details' => collect($e->errors())->values()->join(', '),
+            ]);
         } catch (Exception $e) {
-            return back()->with('error', 'An error occurred while creating the client: ' . $e->getMessage());
+            return response()->json([
+                'error'   => true,
+                'message' => 'Error occurred',
+                'data'    => null,
+                'code'    => 103,
+                'details' => (! empty($e) && is_object($e)) ? $e->getMessage() . ' --> ' . $e->getFile() . ' At Line : ' . $e->getLine() : '',
+            ]);
         }
     }
 }
