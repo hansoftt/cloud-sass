@@ -10,6 +10,7 @@ use Hansoft\CloudSass\Middleware\SelectClientDatabaseMiddleware;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -44,6 +45,22 @@ class CloudSassServiceProvider extends PackageServiceProvider
             }
 
             return array_shift($domainParts);
+        });
+
+        Blade::directive('isClient', function () {
+            return "<?php if (request()->header->get('customer-code')) : ?>";
+        });
+
+        Blade::directive('endIsClient', function () {
+            return "<?php endif; ?>";
+        });
+
+        Blade::directive('unlessClient', function () {
+            return "<?php if (!request()->header->get('customer-code')) : ?>";
+        });
+
+        Blade::directive('endUnlessClient', function () {
+            return "<?php endif; ?>";
         });
     }
 
