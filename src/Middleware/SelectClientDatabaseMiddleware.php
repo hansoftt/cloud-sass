@@ -8,16 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
-class SubdomainMiddleware
+class SelectClientDatabaseMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $subdomain = $request->subdomain();
+        $customer_code = $request->headers->get('customer-code');
 
-        $request->headers->set('customer-code', $request->subdomain());
-
-        if ($subdomain) {
-            $client = Client::where('subdomain', $subdomain)->first();
+        if ($customer_code) {
+            $client = Client::where('subdomain', $customer_code)->first();
 
             if (!$client) {
                 return response()->view('cloud-sass::errors.503', ['message' => 'Client not found'], 503);

@@ -6,11 +6,9 @@ use Hansoft\CloudSass\Commands\CloudSassHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassInstallCommand;
 use Hansoft\CloudSass\Commands\CloudSassPublicHtaccessCommand;
 use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
-use Hansoft\CloudSass\Middleware\HandleCustomerMiddleware;
-use Hansoft\CloudSass\Middleware\SubdomainMiddleware;
+use Hansoft\CloudSass\Middleware\SelectClientDatabaseMiddleware;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Illuminate\Http\Request;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -35,25 +33,11 @@ class CloudSassServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function packageRegistered()
-    {
-        Request::macro('subdomain', function () {
-            $domainParts       = explode('.', request()->getHost());
-            $domainPartsConfig = config('cloud-sass.domain_parts', 3);
-            if (count($domainParts) <= $domainPartsConfig || $domainParts[0] === 'www') {
-                return null;
-            }
-
-            return array_shift($domainParts);
-        });
-    }
-
     public function packageBooted()
     {
         /** @var HttpKernel $kernel */
         $kernel     = app(Kernel::class);
-        $kernel->prependMiddlewareToGroup('web', SubdomainMiddleware::class);
-        //$kernel->prependMiddlewareToGroup('web', HandleCustomerMiddleware::class);
+        $kernel->prependMiddlewareToGroup('web', SelectClientDatabaseMiddleware::class);
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 

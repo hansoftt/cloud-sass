@@ -5,9 +5,6 @@
 
     RewriteEngine On
 
-    RewriteCond %{HTTP:customer_code} ^(.*)
-    RewriteRule .* - [e=HTTP_CUSTOMER_CODE:%1]
-
     RewriteRule ^(.*)$ public/$1 [L]
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

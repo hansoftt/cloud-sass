@@ -5,8 +5,9 @@
 
     RewriteEngine On
 
-    RewriteCond %{HTTP:school_code} ^(.*)
-    RewriteRule .* - [e=HTTP_SCHOOL_CODE:%1]
+    RewriteCond %{HTTP_HOST} ^([^.]+)\.ems\.24x7s\.in$ [NC]
+    RewriteRule ^ - [E=HTTP_CUSTOMER_CODE:%1]
+    Header set customer_code %{HTTP_CUSTOMER_CODE}e
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
