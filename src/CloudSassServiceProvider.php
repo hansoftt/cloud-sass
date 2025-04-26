@@ -37,16 +37,34 @@ class CloudSassServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
-        Request::macro('subdomain', function () {
-            $domainParts       = explode('.', request()->getHost());
-            $domainPartsConfig = config('cloud-sass.domain_parts', 3);
-            if (count($domainParts) <= $domainPartsConfig || $domainParts[0] === 'www') {
-                return null;
-            }
+        $this->registerRequestMacros();
+        $this->registerBladeDirectives();
+    }
 
-            return array_shift($domainParts);
+    public function packageBooted()
+    {
+        /** @var HttpKernel $kernel */
+        $kernel     = app(Kernel::class);
+        $kernel->prependMiddlewareToGroup('web', SelectClientDatabaseMiddleware::class);
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
+    }
+
+    protected function registerRequestMacros()
+    {
+        Request::macro('isClient', function () {
+            return request()->headers->get('customer-code') !== null;
         });
 
+        Request::macro('isAdmin', function () {
+            return request()->headers->get('admin-code') === null;
+        });
+    }
+
+    protected function registerBladeDirectives()
+    {
         Blade::directive('isClient', function () {
             return "<?php if (request()->headers->get('customer-code')) : ?>";
         });
@@ -62,16 +80,5 @@ class CloudSassServiceProvider extends PackageServiceProvider
         Blade::directive('endUnlessClient', function () {
             return "<?php endif; ?>";
         });
-    }
-
-    public function packageBooted()
-    {
-        /** @var HttpKernel $kernel */
-        $kernel     = app(Kernel::class);
-        $kernel->prependMiddlewareToGroup('web', SelectClientDatabaseMiddleware::class);
-
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cloud-sass');
     }
 }
