@@ -9,6 +9,7 @@ use Hansoft\CloudSass\Commands\CloudSassSSLCommand;
 use Hansoft\CloudSass\Middleware\SelectClientDatabaseMiddleware;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Http\Request;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -31,6 +32,19 @@ class CloudSassServiceProvider extends PackageServiceProvider
                 CloudSassHtaccessCommand::class,
                 CloudSassPublicHtaccessCommand::class,
             ]);
+    }
+
+    public function packageRegistered()
+    {
+        Request::macro('subdomain', function () {
+            $domainParts       = explode('.', request()->getHost());
+            $domainPartsConfig = config('cloud-sass.domain_parts', 3);
+            if (count($domainParts) <= $domainPartsConfig || $domainParts[0] === 'www') {
+                return null;
+            }
+
+            return array_shift($domainParts);
+        });
     }
 
     public function packageBooted()
