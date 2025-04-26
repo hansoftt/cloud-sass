@@ -48,7 +48,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
         });
 
         Blade::directive('isClient', function () {
-            return "<?php if (request()->header->get('customer-code')) : ?>";
+            return "<?php if (request()->headers->get('customer-code')) : ?>";
         });
 
         Blade::directive('endIsClient', function () {
@@ -56,7 +56,7 @@ class CloudSassServiceProvider extends PackageServiceProvider
         });
 
         Blade::directive('unlessClient', function () {
-            return "<?php if (!request()->header->get('customer-code')) : ?>";
+            return "<?php if (!request()->headers->get('customer-code')) : ?>";
         });
 
         Blade::directive('endUnlessClient', function () {
