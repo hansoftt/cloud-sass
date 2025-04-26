@@ -8,7 +8,7 @@ class AdminBaseController extends Controller
 {
     public function __construct(Request $request)
     {
-        if ($request->headers->get('customer-code') !== null) {
+        if ($request->isClient()) {
             return abort(403, 'Access denied. This route is not available for clients.');
         }
     }
