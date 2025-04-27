@@ -4,6 +4,7 @@ return [
     'domain_parts' => 3, // Number of domain parts splitted by periods (cloud.24x7s.in = 3)
     'migrations_location' => 'database/migrations', // Where clients migrations reside
     'database_seeder' => 'app:seed-database', // Client database seeder
+    'database_prefix' => null,
     'mysql_root_user' => 'root', // Super MySQL database user who has privileges to create/drop database
     'mysql_root_password' => null,// Super MySQL database user password
     'client_route' => null,
