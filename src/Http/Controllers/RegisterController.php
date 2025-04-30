@@ -40,7 +40,7 @@ class RegisterController extends Controller
             // Create the database for the client
             $this->createDatabase($client);
 
-            Mail::to($client->email)->send(new ClientRegistered($client));
+            Mail::to($client->email)->sendNow(new ClientRegistered($client));
 
             return response()->json([
                 'error'   => false,

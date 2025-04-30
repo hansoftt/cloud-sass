@@ -46,7 +46,7 @@ class ClientsController extends AdminBaseController
         // Create the database for the client
         $this->createDatabase($client);
 
-        Mail::to($client->email)->send(new ClientRegistered($client));
+        Mail::to($client->email)->sendNow(new ClientRegistered($client));
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client created successfully.');
     }
