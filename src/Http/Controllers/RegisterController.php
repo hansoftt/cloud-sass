@@ -2,11 +2,13 @@
 namespace Hansoft\CloudSass\Http\Controllers;
 
 use Exception;
+use Hansoft\CloudSass\Mail\ClientRegistered;
 use Hansoft\CloudSass\Models\Client;
 use Hansoft\CloudSass\Models\Subscription;
 use Hansoft\CloudSass\Traits\HasClientFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -17,6 +19,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         try {
+
             // Validate the request data
             $validated = $request->validate([
                 'name'  => 'required|string|max:255|unique:cloud_sass_clients_table,name',
@@ -36,6 +39,8 @@ class RegisterController extends Controller
 
             // Create the database for the client
             $this->createDatabase($client);
+
+            Mail::to($client->email)->send(new ClientRegistered($client));
 
             return response()->json([
                 'error'   => false,
