@@ -36,7 +36,7 @@ class ClientRegisteredToAdmin extends Mailable
      */
     public function content(): Content
     {
-        return new Content('cloud-sass::emails.client-registered-client', null, null, null, ['client' => $this->client]);
+        return new Content('cloud-sass::emails.client-registered-admin', null, null, null, ['client' => $this->client]);
     }
 
     /**
