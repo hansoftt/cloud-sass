@@ -2,7 +2,8 @@
 namespace Hansoft\CloudSass\Http\Controllers;
 
 use Exception;
-use Hansoft\CloudSass\Mail\ClientRegistered;
+use Hansoft\CloudSass\Mail\ClientRegisteredToAdmin;
+use Hansoft\CloudSass\Mail\ClientRegisteredToClient;
 use Hansoft\CloudSass\Models\Client;
 use Hansoft\CloudSass\Models\Subscription;
 use Hansoft\CloudSass\Traits\HasClientFunctions;
@@ -40,7 +41,11 @@ class RegisterController extends Controller
             // Create the database for the client
             $this->createDatabase($client);
 
-            Mail::to($client->email)->send(new ClientRegistered($client));
+            Mail::to($client->email)->send(new ClientRegisteredToClient($client));
+
+            if (config('cloud-sass.admin_email')) {
+                Mail::to(config('cloud-sass.admin_email'))->send(new ClientRegisteredToAdmin($client));
+            }
 
             return response()->json([
                 'error'   => false,

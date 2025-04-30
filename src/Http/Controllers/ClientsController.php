@@ -1,7 +1,7 @@
 <?php
 namespace Hansoft\CloudSass\Http\Controllers;
 
-use Hansoft\CloudSass\Mail\ClientRegistered;
+use Hansoft\CloudSass\Mail\ClientRegisteredToClient;
 use Hansoft\CloudSass\Models\Client;
 use Hansoft\CloudSass\Models\Subscription;
 use Hansoft\CloudSass\Traits\HasClientFunctions;
@@ -46,7 +46,7 @@ class ClientsController extends AdminBaseController
         // Create the database for the client
         $this->createDatabase($client);
 
-        Mail::to($client->email)->send(new ClientRegistered($client));
+        Mail::to($client->email)->send(new ClientRegisteredToClient($client));
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client created successfully.');
     }

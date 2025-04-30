@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ClientRegistered extends Mailable
+class ClientRegisteredToAdmin extends Mailable
 {
     use SerializesModels;
 
@@ -36,7 +36,7 @@ class ClientRegistered extends Mailable
      */
     public function content(): Content
     {
-        return new Content('cloud-sass::emails.client-registered', null, null, null, ['client' => $this->client]);
+        return new Content('cloud-sass::emails.client-registered-client', null, null, null, ['client' => $this->client]);
     }
 
     /**

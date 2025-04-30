@@ -4,6 +4,7 @@ return [
     'name' => 'Hansoft Church Cloud',
     'domain' => null,
     'domain_parts' => 3, // Number of domain parts splitted by periods (cloud.24x7s.in = 3)
+    'admin_email' => null,
     'migrations_location' => 'database/migrations', // Where clients migrations reside
     'database_seeder' => 'app:seed-database', // Client database seeder
     'database_prefix' => null,
