@@ -11,7 +11,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="{{ asset('vendor/cloud-sass/assets/images/favicon.png') }}">
     <!-- Page Title  -->
-    <title>@yield('title', 'App') - Cloud SASS</title>
+    <title>@yield('title', 'App') - {{ config('cloud-sass.name') | powered by Cloud SASS }}</title>
 
     <style>
         [x-cloak] {
