@@ -1,5 +1,4 @@
 <?php
-
 namespace Hansoft\CloudSass\Traits;
 
 use Illuminate\Support\Facades\Artisan;
@@ -34,19 +33,25 @@ trait HasClientFunctions
 
         $this->reconnectMySQL($databaseName);
 
-        Artisan::call('migrate', [
-            '--database' => 'mysql',
-            '--path'     => config('cloud-sass.migrations_location'),
-            '--force'    => true,
-        ]);
+        $migrations_path = config('cloud-sass.migrations_location');
 
-        if (config('cloud-sass.database_seeder')) {
-            Artisan::call(config('cloud-sass.database_seeder'), [
-                'name'     => $client->name,
-                'email'    => $client->email,
-                'password' => $client->phone,
-                'role'     => 'admin',
+        if (! is_dir($migrations_path)) {
+            DB::unprepared(file_get_contents($migrations_path));
+        } else {
+            Artisan::call('migrate', [
+                '--database' => 'mysql',
+                '--path'     => config('cloud-sass.migrations_location'),
+                '--force'    => true,
             ]);
+
+            if (config('cloud-sass.database_seeder')) {
+                Artisan::call(config('cloud-sass.database_seeder'), [
+                    'name'     => $client->name,
+                    'email'    => $client->email,
+                    'password' => $client->phone,
+                    'role'     => 'admin',
+                ]);
+            }
         }
     }
 
