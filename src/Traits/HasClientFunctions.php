@@ -35,8 +35,8 @@ trait HasClientFunctions
 
         $migrations_path = config('cloud-sass.migrations_location');
 
-        if (! is_dir($migrations_path)) {
-            DB::unprepared(file_get_contents($migrations_path));
+        if (! is_dir(app_path($migrations_path))) {
+            DB::unprepared(file_get_contents(app_path($migrations_path)));
         } else {
             Artisan::call('migrate', [
                 '--database' => 'mysql',
