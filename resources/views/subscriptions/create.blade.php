@@ -42,7 +42,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="no_of_users" class="form-label">Validity (Days)</label>
+                                        <label for="no_of_users" class="form-label">Users (# of Users)</label>
                                         <input type="number" class="form-control" value="{{ old('no_of_users') }}"
                                             id="no_of_users" name="no_of_users" required>
                                         @error('no_of_users')
