@@ -43,15 +43,11 @@ trait HasClientFunctions
                 '--path'     => config('cloud-sass.migrations_location'),
                 '--force'    => true,
             ]);
+        }
 
-            if (config('cloud-sass.database_seeder')) {
-                Artisan::call(config('cloud-sass.database_seeder'), [
-                    'name'     => $client->name,
-                    'email'    => $client->email,
-                    'password' => $client->phone,
-                    'role'     => 'admin',
-                ]);
-            }
+        if (config('cloud-sass.database_seeder')) {
+			$invokable = config('cloud-sass.database_seeder');
+            call_user_func($invokable);
         }
     }
 
