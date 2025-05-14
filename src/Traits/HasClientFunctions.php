@@ -46,7 +46,8 @@ trait HasClientFunctions
         }
 
         if (config('cloud-sass.database_seeder')) {
-			$invokable = config('cloud-sass.database_seeder');
+            require base_path('/vendor/autoload.php');
+            $invokable = config('cloud-sass.database_seeder');
             call_user_func($invokable, $client);
         }
     }
