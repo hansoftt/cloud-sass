@@ -36,6 +36,7 @@
                                             <th>Client Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
+                                            <th>Database</th>
                                             <th>Subdomain</th>
                                             <th>Subscription</th>
                                             <th>Status</th>
@@ -48,6 +49,7 @@
                                             <td>{{ $client->name }}</td>
                                             <td>{{ $client->email }}</td>
                                             <td>{{ $client->phone }}</td>
+                                            <td>{{ $client->database_name }}</td>
                                             <td>{{ $client->subdomain }}</td>
                                             <td>
                                                 {{ $client->subscription->name }}
