@@ -46,9 +46,12 @@ trait HasClientFunctions
         }
 
         if (config('cloud-sass.database_seeder')) {
-            require base_path('/vendor/autoload.php');
-            $invokable = config('cloud-sass.database_seeder');
-            call_user_func($invokable, $client);
+            Artisan::call(config('cloud-sass.database_seeder'), [
+                'name' => $client->name,
+                'email' => $client->email,
+                'password' => $client->phone,
+                'role' => 'admin',
+            ]);
         }
     }
 
