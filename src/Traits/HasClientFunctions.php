@@ -13,7 +13,7 @@ trait HasClientFunctions
         Config::set('database.connections.mysql.password', config('cloud-sass.mysql_root_password'));
         Config::set('database.connections.mysql.database', $databaseName);
         DB::purge('mysql');
-        DB::connection('mysql')->reconnect();
+        DB::reconnect('mysql');
         DB::setDefaultConnection('mysql');
     }
 
@@ -36,6 +36,7 @@ trait HasClientFunctions
         $migrations_path = config('cloud-sass.migrations_location');
 
         if (! is_dir(base_path($migrations_path))) {
+            DB::statement("USE `$databaseName`;");
             DB::unprepared(file_get_contents(base_path($migrations_path)));
         } else {
             Artisan::call('migrate', [
