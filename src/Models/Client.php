@@ -10,6 +10,10 @@ class Client extends Model
     protected $table = 'cloud_sass_clients_table';
 
     protected $guarded = [];
+    
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 
     protected $appends = [
         'database_name',

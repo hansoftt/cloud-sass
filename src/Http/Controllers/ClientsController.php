@@ -38,6 +38,8 @@ class ClientsController extends AdminBaseController
             'is_active'       => 'nullable',
         ]);
 
+        $validated['is_active'] = $validated['is_active' ] ?? 0;
+        
         $client = Client::query()->create($validated);
 
         // Set max execution time and memory limit
@@ -83,6 +85,7 @@ class ClientsController extends AdminBaseController
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
+        $validated['is_active'] = $validated['is_active' ] ?? 0;
         $client->update($validated); // Update the client with the validated data
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client updated successfully.');
