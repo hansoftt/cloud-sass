@@ -29,7 +29,7 @@ class RegisterController extends Controller
                 'phone' => 'required|string|max:255',
             ]);
 
-            $validated['subdomain'] = Str::slug($validated['name'], '-'); // Generate subdomain from name
+            $validated['subdomain'] = Str::slug($validated['short_name'], '-'); // Generate subdomain from name
             $validated['subscription_id'] = Subscription::query()->where('name', 'like', '%Trial%')->first()->id; // Set default subscription ID
             $validated['is_active']       = true;
 
