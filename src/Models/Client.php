@@ -3,6 +3,7 @@ namespace Hansoft\CloudSass\Models;
 
 use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Client extends Model
@@ -10,7 +11,7 @@ class Client extends Model
     protected $table = 'cloud_sass_clients_table';
 
     protected $guarded = [];
-    
+
     protected $casts = [
         'is_active' => 'boolean',
     ];
@@ -40,5 +41,13 @@ class Client extends Model
     protected function subscription()
     {
         return $this->belongsTo(Subscription::class, 'subscription_id', 'id');
+    }
+
+    protected static function booted(): void
+    {
+        $table = (new static)->getTable();
+        static::deleted(function (Client $user) use ($table) {
+            DB::statement(sprintf('ALTER TABLE `%s` AUTO_INCREMENT = 1;', $table));
+        });
     }
 }
