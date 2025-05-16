@@ -24,8 +24,8 @@ class Client extends Model
     protected function getDatabaseNameAttribute()
     {
         $prefix = config('cloud-sass.database_prefix');
-        $name = Str::slug($this->name, '_');
-        return sprintf('%s_%s_%s', $prefix, $name, $this->id);
+        $short_name = Str::slug($this->short_name, '_');
+        return sprintf('%s_%s_%s', $prefix, $short_name, $this->id);
     }
 
     protected function getIsExpiredAttribute()

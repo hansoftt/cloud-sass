@@ -34,6 +34,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Client Name</th>
+                                            <th>Short Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Database</th>
@@ -47,6 +48,7 @@
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
                                             <td>{{ $client->name }}</td>
+                                            <td>{{ $client->short_name }}</td>
                                             <td>{{ $client->email }}</td>
                                             <td>{{ $client->phone }}</td>
                                             <td>{{ $client->database_name }}</td>

@@ -32,6 +32,16 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-3">
+                                        <label for="short_name" class="form-label">Short Name</label>
+                                        <input type="text" class="form-control" value="{{ old('short_name', $client->short_name) }}"
+                                            id="short_name" name="short_name" required>
+                                        @error('short_name')
+                                            <div class="alert alert-danger mt-2">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" value="{{ old('email', $client->email) }}"
                                             id="email" name="email" required>

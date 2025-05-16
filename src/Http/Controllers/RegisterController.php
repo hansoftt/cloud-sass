@@ -23,7 +23,8 @@ class RegisterController extends Controller
 
             // Validate the request data
             $validated = $request->validate([
-                'name'  => 'required|string|max:255|unique:cloud_sass_clients_table,name',
+                'name'  => 'required|string|max:255',
+                'short_name'  => 'required|string|max:255|unique:cloud_sass_clients_table,short_name',
                 'email' => 'required|email|max:255|unique:cloud_sass_clients_table,email',
                 'phone' => 'required|string|max:255',
             ]);

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ClientsController extends AdminBaseController
 {
-    use  HasClientFunctions;
+    use HasClientFunctions;
 
     public function index()
     {
@@ -22,7 +22,7 @@ class ClientsController extends AdminBaseController
     public function create()
     {
         // Fetch all subscriptions from the database
-        $subscriptions = Subscription::all();
+        $subscriptions   = Subscription::all();
         $active_statuses = [true, false]; // Define the active statuses
         return view('cloud-sass::clients.create', ['subscriptions' => $subscriptions, 'active_statuses' => $active_statuses]);
     }
@@ -30,7 +30,8 @@ class ClientsController extends AdminBaseController
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'            => 'required|string|max:255|unique:cloud_sass_clients_table,name',
+            'name'            => 'required|string|max:255',
+            'short_name'      => 'required|string|max:255|unique:cloud_sass_clients_table,short_name',
             'email'           => 'required|email|max:255|unique:cloud_sass_clients_table,email',
             'phone'           => 'required|string|max:255',
             'subdomain'       => 'required|string|max:255',
@@ -38,8 +39,8 @@ class ClientsController extends AdminBaseController
             'is_active'       => 'nullable',
         ]);
 
-        $validated['is_active'] = $validated['is_active' ] ?? 0;
-        
+        $validated['is_active'] = $validated['is_active'] ?? 0;
+
         $client = Client::query()->create($validated);
 
         // Set max execution time and memory limit
@@ -61,7 +62,7 @@ class ClientsController extends AdminBaseController
         }
 
         // Fetch all subscriptions from the database
-        $subscriptions = Subscription::all();
+        $subscriptions   = Subscription::all();
         $active_statuses = [true, false]; // Define the active statuses
 
         // You can also pass any additional data to the view if needed
@@ -72,7 +73,8 @@ class ClientsController extends AdminBaseController
     public function update($id, Request $request)
     {
         $validated = $request->validate([
-            'name'            => 'required|string|max:255|unique:cloud_sass_clients_table,name,' . $id,
+            'name'            => 'required|string|max:255',
+            'short_name'      => 'required|string|max:255|unique:cloud_sass_clients_table,short_name,' . $id,
             'email'           => 'required|email|max:255|unique:cloud_sass_clients_table,email,' . $id,
             'phone'           => 'required|string|max:255',
             'subdomain'       => 'required|string|max:255',
@@ -85,7 +87,7 @@ class ClientsController extends AdminBaseController
             return redirect()->route('cloud-sass.clients.index')->with('error', 'Client not found.');
         }
 
-        $validated['is_active'] = $validated['is_active' ] ?? 0;
+        $validated['is_active'] = $validated['is_active'] ?? 0;
         $client->update($validated); // Update the client with the validated data
 
         return redirect()->route('cloud-sass.clients.index')->with('success', 'Client updated successfully.');
