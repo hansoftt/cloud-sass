@@ -23,14 +23,16 @@ class RegisterController extends Controller
 
             // Validate the request data
             $validated = $request->validate([
-                'name'  => 'required|string|max:255',
-                'short_name'  => 'required|string|max:255|unique:cloud_sass_clients_table,short_name',
-                'email' => 'required|email|max:255|unique:cloud_sass_clients_table,email',
-                'phone' => 'required|string|max:255',
+                'name'       => 'required|string|max:255',
+                'short_name' => 'required|string|max:255|unique:cloud_sass_clients_table,short_name',
+                'email'      => 'required|email|max:255|unique:cloud_sass_clients_table,email',
+                'phone'      => 'required|string|max:255',
             ]);
 
-            $validated['subdomain'] = Str::slug($validated['short_name'], '-'); // Generate subdomain from name
-            $validated['subscription_id'] = Subscription::query()->where('name', 'like', '%Trial%')->first()->id; // Set default subscription ID
+            // Generate subdomain from short_name
+            $validated['subdomain'] = Str::slug($validated['short_name'], '-');
+            // Set default subscription ID
+            $validated['subscription_id'] = Subscription::query()->where('name', 'like', '%Trial%')->first()->id;
             $validated['is_active']       = true;
 
             // Create a new client record in the database
